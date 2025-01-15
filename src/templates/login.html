@@ -177,20 +177,20 @@
             <h2>Login</h2>
         </div>
 
-        <form id="loginForm">
+        <form id="loginForm" action="/loginForm" method="POST">
             <div class="input-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
             </div>
 
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password" required>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
             </div>
 
             <div class="input-group">
                 <label for="userType">Select User Type</label>
-                <select id="userType" required>
+                <select id="userType" name="role" required>
                     <option value="" disabled selected>Choose an option</option>
                     <option value="admin">Admin</option>
                     <option value="doctor">Doctor</option>
@@ -199,8 +199,9 @@
             </div>
 
             <p id="errorMessage" class="error-message" style="display: none;">Please fill out all fields!</p>
-
-            <button type="button" id="loginButton" class="auth-btn" disabled>Login</button>
+            <span class="error-message">{{err}}</span>
+            <span style="color:green;text-align: center;">{{res}}</span>
+            <button type="submit" id="loginButton" class="auth-btn" disabled>Login</button>
         </form>
 
         <div class="auth-footer">
@@ -239,13 +240,6 @@
             }
 
             // Redirect based on user type
-            if (userType === "admin") {
-                window.location.href = "admin-dashboard.html";
-            } else if (userType === "doctor") {
-                window.location.href = "doctor-dashboard.html";
-            } else if (userType === "patient") {
-                window.location.href = "patient-dashboard.html";
-            }
         });
     </script>
 </body>

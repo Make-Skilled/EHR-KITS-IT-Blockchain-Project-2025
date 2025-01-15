@@ -3,11 +3,15 @@ pragma solidity >=0.4.22 <0.9.0;
 
 contract UserManagement {
   address admin;
-  string adminUsername="admin";
-  string adminPassword="admin123";
+  string adminUsername = "admin@gmail.com";
+  string adminPassword = "admin123";
 
-  struct Doctor{
+  uint docId;
+  uint patId;
+
+  struct Doctor {
     address _doctorAddress; // Mandatory
+    uint _doctorId;
     string _doctorName;
     string _doctorPassword;
     string _doctorEmail;
@@ -16,32 +20,32 @@ contract UserManagement {
     bool _exist;
   }
 
-  struct Patient{
+  struct Patient {
     address _patientAddress; // Mandatory
+    uint _patientId;
     string _patientName;
     string _patientPassword;
     string _patientEmail;
-    string _patientId;
     bool _exist;
   }
 
-  // mapping variables
-  mapping(address=>User) users; // user wallet address is pointing a structure of user -> users[_users[0]]
-  mapping(string=>User) usernames; // _usernames[username]
-  address[] userAddresses; // user dynamic array of wallet addresses, _users[0], _users[1]
-  
+  // Mapping variables
+  mapping(address => Doctor) _doctors;
+  address[] _doctorwallets;
 
-  // you can find out length of array (_users.length) -> Number of users registered
-  // you can't find out the length of mapping variable (1) = array (1)
+  mapping(address => Patient) _patients;
+  address[] _patientwallets;
 
   constructor() {
-    admin=msg.sender; // msg.sender is a global variable where it is holding the address of contract invoker
+    admin = msg.sender; // msg.sender is a global variable where it is holding the address of contract invoker
+    docId = 0;
+    patId = 0;
   }
 
   // ValidateAdmin will verify login details of admin passed by frontend
-  function validateAdmin(string memory username,string memory password) public view returns(bool) {
-    if(keccak256(bytes(username))==keccak256(bytes(adminUsername))){
-      if(keccak256(bytes(password))==keccak256(bytes(adminPassword))){
+  function validateAdmin(string memory username, string memory password) public view returns (bool) {
+    if (keccak256(bytes(username)) == keccak256(bytes(adminUsername))) {
+      if (keccak256(bytes(password)) == keccak256(bytes(adminPassword))) {
         return true;
       } else {
         return false;
@@ -51,60 +55,97 @@ contract UserManagement {
     }
   }
 
-  // It will create an account of user
-  function userSignUp(address wallet,string memory username,string memory password,string memory role,string memory email) public {
-    require(!users[wallet]._exist,"Already exist"); // require condition should be always false
-    require(!usernames[username]._exist,"Already username taken"); 
+  // It will create an account of doctor
+  function addDoctor(address wallet, string memory name, string memory password, string memory email, string memory doclicense, string memory docspecial) public {
+    require(!_doctors[wallet]._exist, "Account exist for this wallet");
+    docId += 1;
 
-    // Structure Member
-    User memory new_user=User(wallet,username,password,role,email,true);
-    users[wallet]=new_user;
-    usernames[username]=new_user; // new_user is a structure of records
-    userAddresses.push(wallet); // it will push wallet address
+    Doctor memory new_doctor = Doctor(wallet, docId, name, password, email, doclicense, docspecial, true);
+    _doctors[wallet] = new_doctor;
+    _doctorwallets.push(wallet);
   }
 
-  // It will return all the registered Users
-  function viewAllUsers() public view returns(User[] memory){
-    User[] memory _userArray = new User[] (userAddresses.length); // 100 chairs (empty)
-    // empty structures create -> the length of userAddress (1)
+  // It will create an account of patient
+  function addPatient(address wallet, string memory name, string memory password, string memory email) public {
+    require(!_patients[wallet]._exist, "Account exist for this wallet");
+    patId += 1;
 
-    for (uint256 i = 0; i < userAddresses.length; i++) { // 0<1 // 100 students one-by-one seating
-            _userArray[i] = users[userAddresses[i]]; // users[wallet]
+    Patient memory new_patient = Patient(wallet, patId, name, password, email, true);
+    _patients[wallet] = new_patient;
+    _patientwallets.push(wallet);
+  }
+
+  // It will return all the registered doctors
+  function viewAllDoctors() public view returns (Doctor[] memory) {
+    Doctor[] memory _doctorArray = new Doctor[](_doctorwallets.length);
+
+    for (uint256 i = 0; i < _doctorwallets.length; i++) {
+      _doctorArray[i] = _doctors[_doctorwallets[i]];
     }
 
-    return _userArray; 
+    return _doctorArray;
   }
 
-  // It will return only one record of user based on username
-  function viewUserByUsername(string memory username) public view returns(User memory) {
-    require(usernames[username]._exist,"No account with that username"); // true
-    return usernames[username];
+  // It will return all the registered patients
+  function viewAllPatients() public view returns (Patient[] memory) {
+    Patient[] memory _patientArray = new Patient[](_patientwallets.length);
+
+    for (uint256 i = 0; i < _patientwallets.length; i++) {
+      _patientArray[i] = _patients[_patientwallets[i]];
+    }
+
+    return _patientArray;
   }
 
-  // It will return only one record of user based on wallet
-  function viewUserByWallet(address wallet) public view returns(User memory) {
-    require(users[wallet]._exist,"No account with that wallet");
-    return users[wallet];
+  // It will return only one record of doctor based on wallet
+  function viewDoctorByWallet(address wallet) public view returns (Doctor memory) {
+    require(_doctors[wallet]._exist, "No account with that wallet"); // true
+    return _doctors[wallet];
   }
 
-  // It will validate the login details of user
-  function userLogin(string memory username,string memory password) public view returns(bool){
-    require(usernames[username]._exist,"No account with that username"); 
+  // It will return only one record of patient based on wallet
+  function viewPatientByWallet(address wallet) public view returns (Patient memory) {
+    require(_patients[wallet]._exist, "No account with that wallet"); // true
+    return _patients[wallet];
+  }
 
-    if(keccak256(bytes(username))==keccak256(bytes(usernames[username]._userName))){
-      if(keccak256(bytes(password))==keccak256(bytes(usernames[username]._userPassword))){
+  // It will return only one record of doctor based on doctor id
+  function viewDoctorById(uint docI) public view returns (Doctor memory) {
+    require(docI > 0 && docI <= _doctorwallets.length, "Invalid doctor ID");
+    return _doctors[_doctorwallets[docI - 1]];
+  }
+
+  // It will return only one record of patient based on patient id
+  function viewPatientById(uint patI) public view returns (Patient memory) {
+    require(patI > 0 && patI <= _patientwallets.length, "Invalid patient ID");
+    return _patients[_patientwallets[patI - 1]];
+  }
+
+  // It will validate the login details of doctor
+  function doctorLogin(string memory email, string memory password) public view returns (bool) {
+    for (uint256 i = 0; i < _doctorwallets.length; i++) {
+      Doctor memory doc = _doctors[_doctorwallets[i]];
+      if (keccak256(bytes(doc._doctorEmail)) == keccak256(bytes(email)) && keccak256(bytes(doc._doctorPassword)) == keccak256(bytes(password))) {
         return true;
-      } else {
-        return false;
       }
-    } else {
-      return false;
     }
+    return false;
+  }
+
+  // It will validate the login details of patient
+  function patientLogin(string memory email, string memory password) public view returns (bool) {
+    for (uint256 i = 0; i < _patientwallets.length; i++) {
+      Patient memory pat = _patients[_patientwallets[i]];
+      if (keccak256(bytes(pat._patientEmail)) == keccak256(bytes(email)) && keccak256(bytes(pat._patientPassword)) == keccak256(bytes(password))) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // It has to return admin wallet address, admin username
-  function viewAdmin() public view returns(address,string memory) {
+  function viewAdmin() public view returns (address, string memory) {
     // Read Operation only
-    return (admin,adminUsername);
+    return (admin, adminUsername);
   }
 }

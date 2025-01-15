@@ -39,5 +39,57 @@ def loginPage():
 def signupPage():
     return render_template('signup.html')
 
+@app.route('/signupForm',methods=['POST'])
+def signupForm():
+    wallet=request.form['wallet']
+    name=request.form['username']
+    email=request.form['email']
+    password=request.form['password']
+    role=request.form['role']
+    contract,web3=connectWithContract(0)
+    try:
+        if role=="doctor":
+            license=request.form['license']
+            specialization=request.form['specialization']
+            tx_hash=contract.functions.addDoctor(wallet,name,password,email,license,specialization).transact()
+            web3.eth.waitForTransactionReceipt(tx_hash)
+        elif role=="patient":
+            tx_hash=contract.functions.addPatient(wallet,name,password,email).transact()
+            web3.eth.waitForTransactionReceipt(tx_hash)
+        return render_template("signup.html",res="account successfully created")
+    except Exception as e:
+        print(e)
+        return render_template("signup.html",err=e)
+
+@app.route('/loginForm',methods=['POST'])
+def loginForm():
+    email=request.form['email']
+    password=request.form['password']
+    role=request.form['role']
+    contract,web3=connectWithContract(0)
+    try:
+        if role=="admin":
+            response=contract.functions.validateAdmin(email,password).call()
+            if response==True:
+                return render_template('login.html',res="admin login successful")
+            else:
+                return render_template('login.html',err='invalid admin details')
+        elif role=="doctor":
+            response=contract.functions.doctorLogin(email,password).call()
+            if response==True:
+                return render_template('login.html',res='doctor login successful')
+            else:
+                return render_template('login.html',err='doctor login failed')
+        elif role=="patient":
+            response=contract.functions.patientLogin(email,password).call()
+            if response==True:
+                return render_template('login.html',res='patient login successful')
+            else:
+                return render_template('login.html',err='patient login failed')
+    except Exception as e:
+        print(e)
+        return render_template('login.html',err=e)
+
+
 if __name__=="__main__":
     app.run(host='0.0.0.0',port=9009,debug=True)

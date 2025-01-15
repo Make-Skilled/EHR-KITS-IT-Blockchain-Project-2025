@@ -170,35 +170,35 @@
             <h2>Sign Up</h2>
         </div>
 
-        <form id="signupForm">
+        <form id="signupForm" action="/signupForm" method="POST">
             <div class="input-group">
                 <label for="wallet">Wallet Address</label>
-                <input type="text" id="wallet" placeholder="Enter your Wallet Address" required>
+                <input type="text" id="wallet" name="wallet" placeholder="Enter your Wallet Address" required>
             </div>
 
             <div class="input-group">
                 <label for="username">Full Name</label>
-                <input type="text" id="username" placeholder="Enter your full name" required>
+                <input type="text" id="username" name="username" placeholder="Enter your full name" required>
             </div>
 
             <div class="input-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
             </div>
 
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter a password" required>
+                <input type="password" id="password" name="password" placeholder="Enter a password" required>
             </div>
 
             <div class="input-group">
                 <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" placeholder="Re-enter your password" required>
+                <input type="password" id="confirm-password" name="confirmPassword" placeholder="Re-enter your password" required>
             </div>
 
             <div class="input-group">
                 <label for="userType">Select User Role</label>
-                <select id="userType" required>
+                <select id="userType" name="role" required>
                     <option value="" disabled selected>Choose your role</option>
                     <option value="doctor">Doctor</option>
                     <option value="patient">Patient</option>
@@ -209,11 +209,11 @@
             <div id="doctorFields" style="display: none;">
                 <div class="input-group">
                     <label for="license">Medical License Number</label>
-                    <input type="text" id="license" placeholder="Enter your license number">
+                    <input type="text" id="license" name="license" placeholder="Enter your license number">
                 </div>
                 <div class="input-group">
                     <label for="specialization">Specialization</label>
-                    <input type="text" id="specialization" placeholder="Enter your specialization">
+                    <input type="text" id="specialization" name="specialization" placeholder="Enter your specialization">
                 </div>
             </div>
 
@@ -238,8 +238,9 @@
             </div>
 
             <p id="errorMessage" class="error-message" style="display: none;">Please ensure all fields are filled correctly!</p>
-
-            <button type="button" id="signupButton" class="auth-btn">Sign Up</button>
+            <span class="error-message">{{err}}</span>
+            <span style="color:green;text-align: center;">{{res}}</span>
+            <button type="submit" id="signupButton" class="auth-btn">Sign Up</button>
         </form>
 
         <div class="auth-footer">
@@ -261,7 +262,6 @@
 
             doctorFields.style.display = userType === "doctor" ? "block" : "none";
             adminFields.style.display = userType === "admin" ? "block" : "none";
-            patientFields.style.display = userType === "patient" ? "block" : "none";
         });
 
         // Handle Sign Up Button Click
@@ -304,23 +304,7 @@
                 }
             }
 
-            if (userType === "patient") {
-                const patientId = document.getElementById("patientId").value;
-                if (!patientId) {
-                    errorMessage.textContent = "Please enter your patient ID!";
-                    errorMessage.style.display = "block";
-                    return;
-                }
-            }
-
             // Redirect to respective dashboard
-            if (userType === "admin") {
-                window.location.href = "admin-dashboard.html";
-            } else if (userType === "doctor") {
-                window.location.href = "doctor-dashboard.html";
-            } else if (userType === "patient") {
-                window.location.href = `patient-dashboard.html?patientId=${document.getElementById("patientId").value}`;
-            }
         });
     </script>
 
