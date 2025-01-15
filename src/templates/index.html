@@ -13,38 +13,36 @@
         <title>Mediplus - Free Medical and Doctor Directory HTML Template.</title>
 		
 		<!-- Favicon -->
-        <link rel="icon" href="img/favicon.png">
+        <link rel="icon" href="{{ url_for('static', filename='img/favicon.png') }}">
 		
 		<!-- Google Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 
 		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 		<!-- Nice Select CSS -->
-		<link rel="stylesheet" href="css/nice-select.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
 		<!-- Font Awesome CSS -->
-        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
 		<!-- icofont CSS -->
-        <link rel="stylesheet" href="css/icofont.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/icofont.css') }}">
 		<!-- Slicknav -->
-		<link rel="stylesheet" href="css/slicknav.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/slicknav.min.css') }}">
 		<!-- Owl Carousel CSS -->
-        <link rel="stylesheet" href="css/owl-carousel.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/owl-carousel.css') }}">
 		<!-- Datepicker CSS -->
-		<link rel="stylesheet" href="css/datepicker.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/datepicker.css') }}">
 		<!-- Animate CSS -->
-        <link rel="stylesheet" href="css/animate.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.min.css') }}">
 		<!-- Magnific Popup CSS -->
-        <link rel="stylesheet" href="css/magnific-popup.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
 		
 		<!-- Medipro CSS -->
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="css/responsive.css">
-		
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">	
     </head>
     <body>
-	
 		<!-- Preloader -->
         <div class="preloader">
             <div class="loader">
@@ -61,22 +59,6 @@
         </div>
         <!-- End Preloader -->
 		
-		<!-- Get Pro Button
-		<ul class="pro-features">
-			<a class="get-pro" href="#">Get Pro</a>
-			<li class="big-title">Pro Version Available on Themeforest</li>
-			<li class="title">Pro Version Features</li>
-			<li>2+ premade home pages</li>
-			<li>20+ html pages</li>
-			<li>Color Plate With 12+ Colors</li>
-			<li>Sticky Header / Sticky Filters</li>
-			<li>Working Contact Form With Google Map</li>
-			<div class="button">
-				<a href="http://preview.themeforest.net/item/mediplus-medical-and-doctor-html-template/full_screen_preview/26665910?_ga=2.145092285.888558928.1591971968-344530658.1588061879" target="_blank" class="btn">Pro Version Demo</a>
-				<a href="https://themeforest.net/item/mediplus-medical-and-doctor-html-template/26665910" target="_blank" class="btn">Buy Pro Version</a>
-			</div>
-		</ul> -->
-	
 		<!-- Header Area -->
 		<header class="header" >
 			<!-- Topbar -->
@@ -106,7 +88,7 @@
 							<div class="col-lg-3 col-md-3 col-12">
 								<!-- Start Logo -->
 								<div class="logo">
-									<a href="index.html"><img src="img/logo.png" alt="#"></a>
+									<a href="/"><img src="{{url_for('static',filename='img/logo.png')}}" alt="#"></a>
 								</div>
 								<!-- End Logo -->
 								<!-- Mobile Nav -->
@@ -118,30 +100,13 @@
 								<div class="main-menu">
 									<nav class="navigation">
 										<ul class="nav menu">
-											<li><a href="index.html">Home</a></li>											
-											<li><a href="#">admin<i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="login.html">login</a></li>
-													<li><a href="signup.html">signup</a></li>
-													<li><a href="logout.html">logout</a></li>
-												</ul>
-											</li>
-											<li><a href="#">doctor<i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="login.html">login</a></li>
-													<li><a href="signup.html">signup</a></li>
-													<li><a href="logout.html">logout</a></li>
-												</ul>
-											</li>
-											<li><a href="#">patient<i class="icofont-rounded-down"></i></a>
-												<ul class="dropdown">
-													<li><a href="login.html">login</a></li>
-													<li><a href="signup.html">signup</a></li>
-													<li><a href="logout.html">logout</a></li>
-												</ul>
-											</li>
-											<li><a href="blog-single.html">Blog</a></li>
-											<li><a href="contact.html">Contact Us</a></li>
+											<li><a href="/">Home</a></li>											
+											<li><a href="#aboutus">About Us</a></li>
+											<li><a href="#services">Services</a></li>
+											<li><a href="#solutions">Solutions</a></li>
+											<li><a href="#blog">Blog</a></li>
+											<li><a href="#clientsid">Clients</a></li>
+											<li><a href="/login">Login</a></li>
 										</ul>
 									</nav>
 								</div>
@@ -159,7 +124,7 @@
 		<section class="slider">
 			<div class="hero-slider">
 				<!-- Start Single Slider -->
-				<div class="single-slider" style="background-image:url('img/slider2.jpg')">
+				<div class="single-slider" style="background-image:url('static/img/slider2.jpg')">
 					<div class="container">
 						<div class="row">
 							<div class="col-lg-7">
@@ -177,7 +142,7 @@
 				</div>
 				<!-- End Single Slider -->
 				<!-- Start Single Slider -->
-				<div class="single-slider" style="background-image:url('img/slider.jpg')">
+				<div class="single-slider" style="background-image:url('static/img/slider.jpg')">
 					<div class="container">
 						<div class="row">
 							<div class="col-lg-7">
@@ -195,7 +160,8 @@
 				</div>
 				<!-- Start End Slider -->
 				<!-- Start Single Slider -->
-				<div class="single-slider" style="background-image:url('img/slider3.jpg')">
+				<div class="single-slider" style="background-image: url('static/img/slider3.jpg')">
+
 					<div class="container">
 						<div class="row">
 							<div class="col-lg-7">
@@ -226,7 +192,7 @@
 							<div class="single-schedule first">
 								<div class="inner">
 									<div class="icon">
-										<i class="fa fa-file-medical-alt"></i>
+										<i class="icofont-lock"></i>
 									</div>
 									<div class="single-content">
 										<span>Secure Access</span>
@@ -247,7 +213,7 @@
 									<div class="single-content">
 										<span>Doctor's View</span>
 										<h4>Doctors' Access to Records</h4>
-										<p>Doctors can securely access patient records anytime, ensuring timely and accurate treatment based on the most up-to-date information.</p>
+										<p>Doctors can securely access patient records anytime, ensuring timely and provides accurate treatment .</p>
 										<a href="#">LEARN MORE<i class="fa fa-long-arrow-right"></i></a>
 									</div>
 								</div>
@@ -264,8 +230,8 @@
 										<span>24/7 Availability</span>
 										<h4>System Availability</h4>
 										<ul class="time-sidual">
-											<li class="day">24/7 Access<span>Available at all times</span></li>
-											<li class="day">Backup and Maintenance <span>Scheduled for Sundays</span></li>
+											<li>24/7 Access -> Available at all times</li>
+											<li>Backup and Maintenance Scheduled for Sundays</li>
 										</ul>
 										<a href="#">LEARN MORE<i class="fa fa-long-arrow-right"></i></a>
 									</div>
@@ -277,7 +243,6 @@
 			</div>
 		</section>
 		
-<!-- <!end> -->
 		<!-- Start Feautes -->
 		<section class="Feautes section">
 			<div class="container">
@@ -285,7 +250,7 @@
 					<div class="col-lg-12">
 						<div class="section-title">
 							<h2>We Are Always Ready to Secure Your Data</h2>
-							<img src="img/section-img.png" alt="#">
+							<img src="{{url_for('static',filename='img/section-img.png')}}" alt="#">
 							<p>Empowering healthcare providers with accurate and secure data means better decisions, improved outcomes, and safer environments for patients.</p>
 						</div>
 					</div>
@@ -298,7 +263,7 @@
 								<i class="icofont icofont-lock"></i>
 							</div>
 							<h3>Secure Patient Data Access</h3>
-							<p>Our system ensures secure access to patient health records, providing healthcare professionals with the necessary information to make quick, informed decisions in critical situations.</p>
+							<p style="text-align: justify;">Our system ensures secure access to patient health records, providing healthcare professionals with the required information to make quick, informed decisions in critical situations.</p>
 						</div>
 						<!-- End Single features -->
 					</div>
@@ -308,8 +273,8 @@
 							<div class="signle-icon">
 								<i class="icofont icofont-check-circled"></i>
 							</div>
-							<h3>Blockchain-Based Data Integrity</h3>
-							<p>The EHR system uses blockchain technology to ensure that all patient data is immutable, tamper-proof, and verifiable, ensuring its integrity at all times.</p>
+							<h3>Data Integrity on Blockchain</h3>
+							<p style="text-align: justify;">The EHR system uses blockchain technology to ensure that all patient data is immutable, tamper-proof, and verifiable, ensuring its integrity at all times.</p>
 						</div>
 						<!-- End Single features -->
 					</div>
@@ -320,24 +285,7 @@
 								<i class="icofont icofont-share"></i>
 							</div>
 							<h3>Efficient Data Sharing</h3>
-							<p>Our EHR platform enables seamless data sharing between healthcare providers, ensuring that every medical professional has up-to-date and comprehensive patient information for better decision-making.</p>
-						</div>
-						<!-- End Single features -->
-					</div>
-				</div>
-			</div>
-		</section>
-		
-						<!-- End Single features -->
-					</div>
-					<div class="col-lg-4 col-12">
-						<!-- Start Single features -->
-						<div class="single-features last">
-							<div class="signle-icon">
-								<i class="icofont icofont-stethoscope"></i>
-							</div>
-							<h3>Medical Treatment</h3>
-							<p>Medical Treatment involves care and expertise.</p>
+							<p style="text-align: justify;">Our EHR platform enables seamless data sharing between healthcare providers, ensuring that every medical professional has up-to-date and comprehensive patient information for better decision-making.</p>
 						</div>
 						<!-- End Single features -->
 					</div>
@@ -400,13 +348,13 @@
 		<!--/ End Fun-facts -->
 		
 		<!-- Start Why choose -->
-		<section class="why-choose section" >
+		<section class="why-choose section" id="aboutus">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="section-title">
 							<h2>We Offer Different Services To Improve Your Health</h2>
-							<img src="img/section-img.png" alt="#">
+							<img src="{{url_for('static',filename='img/section-img.png')}}" alt="#">
 							<p>We provide cutting-edge solutions to ensure your healthcare data is stored, managed, and accessed securely and efficiently.</p>
 						</div>
 					</div>
@@ -486,7 +434,7 @@
 					<div class="col-lg-12">
 						<div class="section-title">
 							<h2>Setting the Standard for Secure and Clean Data Management</h2>
-							<img src="img/section-img.png" alt="#">
+							<img src="{{url_for('static',filename='img/section-img.png')}}" alt="#">
 							<p>We adhere to the highest standards of data security and integrity, ensuring your healthcare information remains protected and accessible.</p>
 						</div>
 					</div>
@@ -497,35 +445,35 @@
 					<div class="col-lg-12 col-12">
 						<div class="owl-carousel portfolio-slider">
 							<div class="single-pf">
-								<img src="img/pf1.jpg" alt="#">
+								<img src="{{url_for('static',filename='img/pf1.jpg')}}" alt="#">
 								<a href="portfolio-details.html" class="btn">View Details</a>
 							</div>
 							<div class="single-pf">
-								<img src="img/pf2.jpg" alt="#">
+								<img src="{{url_for('static',filename='img/pf2.jpg')}}" alt="#">
 								<a href="portfolio-details.html" class="btn">View Details</a>
 							</div>
 							<div class="single-pf">
-								<img src="img/pf3.jpg" alt="#">
+								<img src="{{url_for('static',filename='img/pf3.jpg')}}" alt="#">
 								<a href="portfolio-details.html" class="btn">View Details</a>
 							</div>
 							<div class="single-pf">
-								<img src="img/pf4.jpg" alt="#">
+								<img src="{{url_for('static',filename='img/pf4.jpg')}}" alt="#">
 								<a href="portfolio-details.html" class="btn">View Details</a>
 							</div>
 							<div class="single-pf">
-								<img src="img/pf1.jpg" alt="#">
+								<img src="{{url_for('static',filename='img/pf1.jpg')}}" alt="#">
 								<a href="portfolio-details.html" class="btn">View Details</a>
 							</div>
 							<div class="single-pf">
-								<img src="img/pf2.jpg" alt="#">
+								<img src="{{url_for('static',filename='img/pf2.jpg')}}" alt="#">
 								<a href="portfolio-details.html" class="btn">View Details</a>
 							</div>
 							<div class="single-pf">
-								<img src="img/pf3.jpg" alt="#">
+								<img src="{{url_for('static',filename='img/pf3.jpg')}}" alt="#">
 								<a href="portfolio-details.html" class="btn">View Details</a>
 							</div>
 							<div class="single-pf">
-								<img src="img/pf4.jpg" alt="#">
+								<img src="{{url_for('static',filename='img/pf4.jpg')}}" alt="#">
 								<a href="portfolio-details.html" class="btn">View Details</a>
 							</div>
 						</div>
@@ -533,88 +481,88 @@
 				</div>
 			</div>
 		</section>
-		<!--/ End portfolio -->
+		
 		
 		<!-- Start Service -->
-<section class="services section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-title">
-                    <h2>Comprehensive Healthcare Services Tailored to Your Needs</h2>
-                    <img src="img/section-img.png" alt="Healthcare Icon">
-                    <p>Explore our wide range of medical services designed to improve your health and well-being with expert care.</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Start Single Service -->
-                <div class="single-service">
-                    <i class="icofont icofont-prescription"></i>
-                    <h4><a href="service-details.html">General Health Checkups</a></h4>
-                    <p>Regular checkups to monitor your overall health, detect potential issues early, and provide preventative care.</p>
-                </div>
-                <!-- End Single Service -->
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Start Single Service -->
-                <div class="single-service">
-                    <i class="icofont icofont-tooth"></i>
-                    <h4><a href="service-details.html">Dental Care & Teeth Whitening</a></h4>
-                    <p>Enhance your smile with professional dental treatments, including cleaning, whitening, and restorative procedures.</p>
-                </div>
-                <!-- End Single Service -->
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Start Single Service -->
-                <div class="single-service">
-                    <i class="icofont icofont-heart-alt"></i>
-                    <h4><a href="service-details.html">Cardiology & Heart Surgery</a></h4>
-                    <p>Advanced cardiac care and surgical procedures performed by experienced specialists to improve heart health.</p>
-                </div>
-                <!-- End Single Service -->
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Start Single Service -->
-                <div class="single-service">
-                    <i class="icofont icofont-listening"></i>
-                    <h4><a href="service-details.html">Ear, Nose, and Throat Treatment</a></h4>
-                    <p>Comprehensive care for hearing issues, sinus problems, and other ENT-related conditions.</p>
-                </div>
-                <!-- End Single Service -->
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Start Single Service -->
-                <div class="single-service">
-                    <i class="icofont icofont-eye-alt"></i>
-                    <h4><a href="service-details.html">Vision Care & Eye Surgery</a></h4>
-                    <p>Specialized treatments for vision problems, cataracts, and other eye-related concerns to restore clarity.</p>
-                </div>
-                <!-- End Single Service -->
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Start Single Service -->
-                <div class="single-service">
-                    <i class="icofont icofont-blood"></i>
-                    <h4><a href="service-details.html">Blood Transfusion Services</a></h4>
-                    <p>Safe and efficient blood transfusions, ensuring patient health and safety with stringent protocols.</p>
-                </div>
-                <!-- End Single Service -->
-            </div>
-        </div>
-    </div>
-</section>
-<!--/ End Service -->
+		<section class="services section" id="services">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="section-title">
+							<h2>Comprehensive Healthcare Services Tailored to Your Needs</h2>
+							<img src="{{url_for('static',filename='img/section-img.png')}}" alt="Healthcare Icon">
+							<p>Explore our wide range of medical services designed to improve your health and well-being with expert care.</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4 col-md-6 col-12">
+						<!-- Start Single Service -->
+						<div class="single-service">
+							<i class="icofont icofont-prescription"></i>
+							<h4><a href="service-details.html">General Health Checkups</a></h4>
+							<p>Regular checkups to monitor your overall health, detect potential issues early, and provide preventative care.</p>
+						</div>
+						<!-- End Single Service -->
+					</div>
+					<div class="col-lg-4 col-md-6 col-12">
+						<!-- Start Single Service -->
+						<div class="single-service">
+							<i class="icofont icofont-tooth"></i>
+							<h4><a href="service-details.html">Dental Care & Teeth Whitening</a></h4>
+							<p>Enhance your smile with professional dental treatments, including cleaning, whitening, and restorative procedures.</p>
+						</div>
+						<!-- End Single Service -->
+					</div>
+					<div class="col-lg-4 col-md-6 col-12">
+						<!-- Start Single Service -->
+						<div class="single-service">
+							<i class="icofont icofont-heart-alt"></i>
+							<h4><a href="service-details.html">Cardiology & Heart Surgery</a></h4>
+							<p>Advanced cardiac care and surgical procedures performed by experienced specialists to improve heart health.</p>
+						</div>
+						<!-- End Single Service -->
+					</div>
+					<div class="col-lg-4 col-md-6 col-12">
+						<!-- Start Single Service -->
+						<div class="single-service">
+							<i class="icofont icofont-listening"></i>
+							<h4><a href="service-details.html">Ear, Nose, and Throat Treatment</a></h4>
+							<p>Comprehensive care for hearing issues, sinus problems, and other ENT-related conditions.</p>
+						</div>
+						<!-- End Single Service -->
+					</div>
+					<div class="col-lg-4 col-md-6 col-12">
+						<!-- Start Single Service -->
+						<div class="single-service">
+							<i class="icofont icofont-eye-alt"></i>
+							<h4><a href="service-details.html">Vision Care & Eye Surgery</a></h4>
+							<p>Specialized treatments for vision problems, cataracts, and other eye-related concerns to restore clarity.</p>
+						</div>
+						<!-- End Single Service -->
+					</div>
+					<div class="col-lg-4 col-md-6 col-12">
+						<!-- Start Single Service -->
+						<div class="single-service">
+							<i class="icofont icofont-blood"></i>
+							<h4><a href="service-details.html">Blood Transfusion Services</a></h4>
+							<p>Safe and efficient blood transfusions, ensuring patient health and safety with stringent protocols.</p>
+						</div>
+						<!-- End Single Service -->
+					</div>
+				</div>
+			</div>
+		</section>
+
 
 		<!-- Pricing Table -->
-		<section class="pricing-table section">
+		<section class="pricing-table section" id="solutions">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="section-title">
 							<h2>We Offer Comprehensive Electronic Health Record Solutions</h2>
-							<img src="img/section-img.png" alt="EHR System Overview">
+							<img src="static/img/section-img.png" alt="EHR System Overview">
 							<p>We provide healthcare providers with the best EHR systems that offer secure data storage, seamless integration, and easy access to patient records, ensuring better care and improved patient outcomes.</p>
 						</div>
 					</div>
@@ -626,7 +574,7 @@
 							<!-- Table Head -->
 							<div class="table-head">
 								<div class="icon">
-									<i class="icofont icofont-shield-alt-2"></i>
+									<i class="icofont icofont-shield-alt"></i>
 								</div>
 								<h4 class="title">Data Security</h4>
 								<div class="price">
@@ -715,7 +663,7 @@
             <div class="col-lg-12">
                 <div class="section-title">
                     <h2>Stay Informed with the Latest in Healthcare and Wellness</h2>
-                    <img src="img/section-img.png" alt="Blog Icon">
+                    <img src="{{url_for('static',filename='img/section-img.png')}}" alt="Blog Icon">
                     <p>Explore our latest updates, insights, and tips to stay ahead in healthcare and maintain a healthy lifestyle.</p>
                 </div>
             </div>
@@ -725,7 +673,7 @@
                 <!-- Single Blog -->
                 <div class="single-news">
                     <div class="news-head">
-                        <img src="img/blog1.jpg" alt="New Product Announcement">
+                        <img src="{{url_for('static',filename='img/blog1.jpg')}}" alt="New Product Announcement">
                     </div>
                     <div class="news-body">
                         <div class="news-content">
@@ -741,7 +689,7 @@
                 <!-- Single Blog -->
                 <div class="single-news">
                     <div class="news-head">
-                        <img src="img/blog2.jpg" alt="Teeth Care Tips">
+                        <img src="{{url_for('static',filename='img/blog2.jpg')}}" alt="Teeth Care Tips">
                     </div>
                     <div class="news-body">
                         <div class="news-content">
@@ -757,7 +705,7 @@
                 <!-- Single Blog -->
                 <div class="single-news">
                     <div class="news-head">
-                        <img src="img/blog3.jpg" alt="Business Solutions for Healthcare">
+                        <img src="{{url_for('static',filename='img/blog3.jpg')}}" alt="Business Solutions for Healthcare">
                     </div>
                     <div class="news-body">
                         <div class="news-content">
@@ -776,37 +724,37 @@
 
 		
 		<!-- Start clients -->
-		<div class="clients overlay">
+		<div class="clients overlay" id="clientsid">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-12">
 						<div class="owl-carousel clients-slider">
 							<div class="single-clients">
-								<img src="img/client1.png" alt="#">
+								<img src="{{url_for('static',filename='img/client1.png')}}" alt="#">
 							</div>
 							<div class="single-clients">
-								<img src="img/client2.png" alt="#">
+								<img src="{{url_for('static',filename='img/client2.png')}}" alt="#">
 							</div>
 							<div class="single-clients">
-								<img src="img/client3.png" alt="#">
+								<img src="{{url_for('static',filename='img/client3.png')}}" alt="#">
 							</div>
 							<div class="single-clients">
-								<img src="img/client4.png" alt="#">
+								<img src="{{url_for('static',filename='img/client4.png')}}" alt="#">
 							</div>
 							<div class="single-clients">
-								<img src="img/client5.png" alt="#">
+								<img src="{{url_for('static',filename='img/client5.png')}}" alt="#">
 							</div>
 							<div class="single-clients">
-								<img src="img/client1.png" alt="#">
+								<img src="{{url_for('static',filename='img/client1.png')}}" alt="#">
 							</div>
 							<div class="single-clients">
-								<img src="img/client2.png" alt="#">
+								<img src="{{url_for('static',filename='img/client2.png')}}" alt="#">
 							</div>
 							<div class="single-clients">
-								<img src="img/client3.png" alt="#">
+								<img src="{{url_for('static',filename='img/client3.png')}}" alt="#">
 							</div>
 							<div class="single-clients">
-								<img src="img/client4.png" alt="#">
+								<img src="{{url_for('static',filename='img/client4.png')}}" alt="#">
 							</div>
 						</div>
 					</div>
@@ -856,7 +804,7 @@
 						<div class="col-lg-3 col-md-6 col-12">
 							<div class="single-footer">
 								<h2>About Us</h2>
-								<p>We are dedicated to revolutionizing healthcare by providing innovative data storage solutions that ensure security, efficiency, and reliability. Our mission is to empower healthcare providers with cutting-edge technology to deliver superior patient care. With a focus on excellence and innovation, we aim to build a healthier future together.</p>
+								<p style="text-align:justify">We are dedicated to revolutionizing healthcare by providing innovative data storage solutions that ensure security, efficiency, and reliability. Our mission is to empower healthcare providers with cutting-edge technology to deliver superior patient care. With a focus on excellence and innovation, we aim to build a healthier future together.</p>
 								<!-- Social -->
 								<ul class="social">
 									<li><a href="#"><i class="icofont-facebook"></i></a></li>
@@ -874,7 +822,7 @@
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-12">
 										<ul>
-											<li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Home</a></li>
+											<li><a href="/"><i class="fa fa-caret-right" aria-hidden="true"></i>Home</a></li>
 											<li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>About Us</a></li>
 											<li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Services</a></li>
 											<li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Our Cases</a></li>
@@ -896,9 +844,9 @@
 						<div class="col-lg-3 col-md-6 col-12">
 							<div class="single-footer">
 								<h2>Open Hours</h2>
-								<p>We’re here to serve you with extended hours to suit your schedule. Visit us during the times below:</p>
+								<p style="text-align:justify">We’re here to serve you with extended hours to suit your schedule. Visit us during the times below:</p>
 								<ul class="time-sidual">
-									<li class="day">Monday - Fridayp <span>8.00-20.00</span></li>
+									<li class="day">Monday - Friday <span>8.00-20.00</span></li>
 									<li class="day">Saturday <span>9.00-18.30</span></li>
 									<li class="day">Monday - Thusday <span>9.00-15.00</span></li>
 								</ul>
@@ -907,7 +855,7 @@
 						<div class="col-lg-3 col-md-6 col-12">
 							<div class="single-footer">
 								<h2>Newsletter</h2>
-                                <p>Subscribe to our newsletter and stay updated with the latest healthcare news, tips, and updates delivered straight to your inbox.</p>
+                                <p style="text-align:justify">Subscribe to our newsletter and stay updated with the latest healthcare news, tips, and updates delivered straight to your inbox.</p>
 								<form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
 									<input name="email" placeholder="Email Address" class="common-input" onfocus="this.placeholder = ''"
 										onblur="this.placeholder = 'Your email address'" required="" type="email">
@@ -925,7 +873,7 @@
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-12">
 							<div class="copyright-content">
-								<p>© Copyright 2018  |  All Rights Reserved by <a href="https://www.wpthemesgrid.com" target="_blank">wpthemesgrid.com</a> </p>
+								<p>© Copyright 2025  |  All Rights Reserved by <a href="#" target="_blank">KITS IT IV Year</a> </p>
 							</div>
 						</div>
 					</div>
@@ -936,44 +884,44 @@
 		<!--/ End Footer Area -->
 		
 		<!-- jquery Min JS -->
-        <script src="js/jquery.min.js"></script>
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 		<!-- jquery Migrate JS -->
-		<script src="js/jquery-migrate-3.0.0.js"></script>
+		<script src="{{ url_for('static', filename='js/jquery-migrate-3.0.0.js') }}"></script>
 		<!-- jquery Ui JS -->
-		<script src="js/jquery-ui.min.js"></script>
+		<script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
 		<!-- Easing JS -->
-        <script src="js/easing.js"></script>
+        <script src="{{ url_for('static', filename='js/easing.js') }}"></script>
 		<!-- Color JS -->
-		<script src="js/colors.js"></script>
+		<script src="{{ url_for('static', filename='js/colors.js') }}"></script>
 		<!-- Popper JS -->
-		<script src="js/popper.min.js"></script>
+		<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
 		<!-- Bootstrap Datepicker JS -->
-		<script src="js/bootstrap-datepicker.js"></script>
+		<script src="{{ url_for('static', filename='js/bootstrap-datepicker.js') }}"></script>
 		<!-- Jquery Nav JS -->
-        <script src="js/jquery.nav.js"></script>
+        <script src="{{ url_for('static', filename='js/jquery.nav.js') }}"></script>
 		<!-- Slicknav JS -->
-		<script src="js/slicknav.min.js"></script>
+		<script src="{{ url_for('static', filename='js/slicknav.min.js') }}"></script>
 		<!-- ScrollUp JS -->
-        <script src="js/jquery.scrollUp.min.js"></script>
+        <script src="{{ url_for('static', filename='js/jquery.scrollUp.min.js') }}"></script>
 		<!-- Niceselect JS -->
-		<script src="js/niceselect.js"></script>
+		<script src="{{ url_for('static', filename='js/niceselect.js') }}"></script>
 		<!-- Tilt Jquery JS -->
-		<script src="js/tilt.jquery.min.js"></script>
+		<script src="{{ url_for('static', filename='js/tilt.jquery.min.js') }}"></script>
 		<!-- Owl Carousel JS -->
-        <script src="js/owl-carousel.js"></script>
+        <script src="{{ url_for('static', filename='js/owl-carousel.js') }}"></script>
 		<!-- counterup JS -->
-		<script src="js/jquery.counterup.min.js"></script>
+		<script src="{{ url_for('static', filename='js/jquery.counterup.min.js') }}"></script>
 		<!-- Steller JS -->
-		<script src="js/steller.js"></script>
+		<script src="{{ url_for('static', filename='js/steller.js') }}"></script>
 		<!-- Wow JS -->
-		<script src="js/wow.min.js"></script>
+		<script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
 		<!-- Magnific Popup JS -->
-		<script src="js/jquery.magnific-popup.min.js"></script>
+		<script src="{{ url_for('static', filename='js/jquery.magnific-popup.min.js') }}"></script>
 		<!-- Counter Up CDN JS -->
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
 		<!-- Bootstrap JS -->
-		<script src="js/bootstrap.min.js"></script>
+		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 		<!-- Main JS -->
-		<script src="js/main.js"></script>
+		<script src="{{ url_for('static', filename='js/main.js') }}"></script>
     </body>
 </html>
