@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Appointments | Doctor Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .approve-btn {
+            background-color: #28a745;
+        }
+
+        .cancel-btn {
+            background-color: #dc3545;
+        }
+
+        .approve-btn:hover {
+            background-color: #218838;
+        }
+
+        .cancel-btn:hover {
+            background-color: #c82333;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            color: #1A76D1;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: #145BA8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Manage Appointments</h1>
+
+        <!-- Appointments Table -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Patient Name</th>
+                    <th>Appointment Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>101</td>
+                    <td>Jane Smith</td>
+                    <td>2024-12-10</td>
+                    <td>Pending</td>
+                    <td>
+                        <button class="action-btn approve-btn">Approve</button>
+                        <button class="action-btn cancel-btn">Cancel</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>John Doe</td>
+                    <td>2024-12-12</td>
+                    <td>Confirmed</td>
+                    <td>
+                        <button class="action-btn cancel-btn">Cancel</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>103</td>
+                    <td>Emily Stone</td>
+                    <td>2024-12-15</td>
+                    <td>Pending</td>
+                    <td>
+                        <button class="action-btn approve-btn">Approve</button>
+                        <button class="action-btn cancel-btn">Cancel</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="doctor-dashboard.html" class="back-btn">Back to Doctor Dashboard</a>
+    </div>
+
+    <script>
+        // Handle appointment approval or cancellation
+        document.querySelectorAll('.approve-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const appointmentId = this.closest('tr').children[0].textContent;
+                alert(`Appointment ID ${appointmentId} has been approved.`);
+                // You can implement functionality to update appointment status in the backend here
+            });
+        });
+
+        document.querySelectorAll('.cancel-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const appointmentId = this.closest('tr').children[0].textContent;
+                alert(`Appointment ID ${appointmentId} has been canceled.`);
+                // You can implement functionality to update appointment status in the backend here
+            });
+        });
+    </script>
+
+</body>
+</html>

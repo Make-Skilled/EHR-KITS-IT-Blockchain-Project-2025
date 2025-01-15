@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Records | Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1A76D1;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            color: #1A76D1;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .filter-section input,
+        .filter-section select {
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .filter-section button {
+            padding: 10px 20px;
+            background-color: #1A76D1;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-section button:hover {
+            background-color: #145BA8;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #1A76D1;
+            color: white;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .view-btn {
+            background-color: #FFC107;
+            color: black;
+        }
+
+        .delete-btn {
+            background-color: #E63946;
+        }
+
+        .view-btn:hover {
+            background-color: #DDAA06;
+        }
+
+        .delete-btn:hover {
+            background-color: #B22234;
+        }
+
+        .back-to-dashboard {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* Align to the top-right corner */
+            z-index: 1000; /* Ensure it stays above other elements */
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1A76D1;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            background-color: #145BA8;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-to-dashboard">
+        <a href="admin-dashboard.html" class="btn">Back</a>
+    </div>
+    <div class="container">
+        <h1>Medical Records Management</h1>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div>
+                <label for="search-name">Search by Patient Name:</label>
+                <input type="text" id="search-name" placeholder="Enter patient name">
+            </div>
+            <div>
+                <label for="date-filter">Filter by Date:</label>
+                <input type="date" id="date-filter">
+            </div>
+            <div>
+                <label for="record-id-filter">Filter by Record ID:</label>
+                <input type="number" id="record-id-filter" placeholder="Enter record ID">
+            </div>
+            <div>
+                <button onclick="applyFilters()">Apply Filters</button>
+            </div>
+        </div>
+
+        <!-- Medical Records Table -->
+        <div class="section">
+            <h2>All Medical Records</h2>
+            <table class="table" id="records-table">
+                <thead>
+                    <tr>
+                        <th>Record ID</th>
+                        <th>Patient Name</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="records-body">
+                    <tr>
+                        <td>101</td>
+                        <td>Jane Smith</td>
+                        <td>Dr. John Doe</td>
+                        <td>2024-12-01</td>
+                        <td>Blood Test</td>
+                        <td>
+                            <button class="action-btn view-btn" onclick="viewRecord(101)">View</button>
+                            <button class="action-btn delete-btn" onclick="deleteRecord(101)">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>John Doe</td>
+                        <td>Dr. Jane Smith</td>
+                        <td>2024-12-05</td>
+                        <td>X-Ray Report</td>
+                        <td>
+                            <button class="action-btn view-btn" onclick="viewRecord(102)">View</button>
+                            <button class="action-btn delete-btn" onclick="deleteRecord(102)">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>Alex Johnson</td>
+                        <td>Dr. John Doe</td>
+                        <td>2024-12-10</td>
+                        <td>MRI Scan</td>
+                        <td>
+                            <button class="action-btn view-btn" onclick="viewRecord(103)">View</button>
+                            <button class="action-btn delete-btn" onclick="deleteRecord(103)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Function to apply filters based on user input
+        function applyFilters() {
+            const name = document.getElementById('search-name').value.toLowerCase();
+            const date = document.getElementById('date-filter').value;
+            const recordId = document.getElementById('record-id-filter').value;
+
+            const rows = document.querySelectorAll('#records-body tr');
+            rows.forEach(row => {
+                const patientName = row.cells[1].textContent.toLowerCase();
+                const recordDate = row.cells[3].textContent;
+                const recordID = row.cells[0].textContent;
+
+                // Check if the name, date, and record ID match the filter
+                if ((patientName.includes(name) || name === '') &&
+                    (date === "" || recordDate === date) &&
+                    (recordId === "" || recordID === recordId)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to view medical record details
+        function viewRecord(recordId) {
+            alert(`Viewing Medical Record ID: ${recordId}`);
+            // Redirect to the page with detailed record or open modal to show more info
+        }
+
+        // Function to delete a medical record
+        function deleteRecord(recordId) {
+            alert(`Deleting Medical Record ID: ${recordId}`);
+            // Send a delete request to the backend or remove the row from the table dynamically
+        }
+    </script>
+</body>
+</html>

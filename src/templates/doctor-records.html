@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Medical Records | Doctor Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #1A76D1;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1A76D1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #145BA8;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            color: #1A76D1;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: #145BA8;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Upload Medical Records</h1>
+
+        <form id="uploadForm">
+            <!-- Patient ID Field -->
+            <div class="form-group">
+                <label for="patient-id">Patient ID</label>
+                <input type="text" id="patient-id" placeholder="Enter Patient ID" required>
+            </div>
+
+            <!-- Medical File Upload -->
+            <div class="form-group">
+                <label for="file">Medical File</label>
+                <input type="file" id="file" required>
+            </div>
+
+            <!-- Error Message -->
+            <p id="error-message" class="error-message" style="display: none;">Please ensure all fields are filled out!</p>
+
+            <!-- Submit Button -->
+            <button type="submit">Upload</button>
+        </form>
+
+        <!-- Back Link -->
+        <a href="doctor-dashboard.html" class="back-btn">Back to Doctor Dashboard</a>
+    </div>
+
+    <script>
+        // Handle the form submission
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // Prevent default form submission
+
+            const patientId = document.getElementById('patient-id').value;
+            const fileInput = document.getElementById('file');
+
+            // Simple validation to ensure all fields are filled
+            if (!patientId || !fileInput.files.length) {
+                document.getElementById('error-message').style.display = 'block';
+                return;
+            }
+
+            // If the form is valid, log the data (for now)
+            console.log("Patient ID:", patientId);
+            console.log("Medical File:", fileInput.files[0].name);
+
+            // Simulate form submission success
+            alert('Medical record uploaded successfully!');
+            document.getElementById('uploadForm').reset();  // Reset the form
+        });
+    </script>
+
+</body>
+</html>

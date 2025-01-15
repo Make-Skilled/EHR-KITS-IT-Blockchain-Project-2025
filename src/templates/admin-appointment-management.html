@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Management | Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1A76D1;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            color: #1A76D1;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .filter-section input,
+        .filter-section select {
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .filter-section button {
+            padding: 10px 20px;
+            background-color: #1A76D1;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-section button:hover {
+            background-color: #145BA8;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #1A76D1;
+            color: white;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .edit-btn {
+            background-color: #FFC107;
+            color: black;
+        }
+
+        .cancel-btn {
+            background-color: #E63946;
+        }
+
+        .edit-btn:hover {
+            background-color: #DDAA06;
+        }
+
+        .cancel-btn:hover {
+            background-color: #B22234;
+        }
+
+        .status-select {
+            padding: 5px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .back-to-dashboard {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* Align to the top-right corner */
+            z-index: 1000; /* Ensure it stays above other elements */
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1A76D1;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            background-color: #145BA8;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-to-dashboard">
+        <a href="admin-dashboard.html" class="btn">Back</a>
+    </div>
+    
+    <div class="container">
+        <h1>Appointment Management</h1>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div>
+                <label for="search-name">Search by Patient Name:</label>
+                <input type="text" id="search-name" placeholder="Enter patient name">
+            </div>
+            <div>
+                <label for="status-filter">Filter by Status:</label>
+                <select id="status-filter">
+                    <option value="">Select Status</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Canceled">Canceled</option>
+                </select>
+            </div>
+            <div>
+                <button onclick="applyFilters()">Apply Filters</button>
+            </div>
+        </div>
+
+        <!-- Appointments Table -->
+        <div class="section">
+            <h2>All Appointments</h2>
+            <table class="table" id="appointments-table">
+                <thead>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>Patient Name</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>Jane Smith</td>
+                        <td>Dr. John Doe</td>
+                        <td>2024-12-10</td>
+                        <td>Confirmed</td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="editAppointment(101)">Edit</button>
+                            <button class="action-btn cancel-btn" onclick="cancelAppointment(101)">Cancel</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>John Doe</td>
+                        <td>Dr. Jane Smith</td>
+                        <td>2024-12-15</td>
+                        <td>Pending</td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="editAppointment(102)">Edit</button>
+                            <button class="action-btn cancel-btn" onclick="cancelAppointment(102)">Cancel</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>Emily Stone</td>
+                        <td>Dr. John Doe</td>
+                        <td>2024-12-20</td>
+                        <td>Canceled</td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="editAppointment(103)">Edit</button>
+                            <button class="action-btn cancel-btn" onclick="cancelAppointment(103)">Cancel</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Function to apply filters based on user input
+        function applyFilters() {
+            const name = document.getElementById('search-name').value.toLowerCase();
+            const status = document.getElementById('status-filter').value.toLowerCase();
+
+            const rows = document.querySelectorAll('#appointments-table tbody tr');
+
+            rows.forEach(row => {
+                const patientName = row.cells[1].textContent.toLowerCase();
+                const appointmentStatus = row.cells[4].textContent.toLowerCase();
+
+                const matchesName = patientName.includes(name);
+                const matchesStatus = status === '' || appointmentStatus === status;
+
+                if (matchesName && matchesStatus) {
+                    row.style.display = ''; // Show row
+                } else {
+                    row.style.display = 'none'; // Hide row
+                }
+            });
+        }
+
+        // Function to handle status update
+        function updateStatus(appointmentId) {
+            const statusSelect = document.querySelector(`tr td select[class="status-select"]`);
+            const newStatus = statusSelect.value;
+            console.log(`Appointment ID ${appointmentId} status updated to: ${newStatus}`);
+        }
+
+        // Function to handle the "Edit" action for an appointment
+        function editAppointment(appointmentId) {
+            alert(`Editing Appointment ID: ${appointmentId}`);
+            // Redirect to edit page or open modal for editing appointment details
+        }
+
+        // Function to handle the "Cancel" action for an appointment
+        function cancelAppointment(appointmentId) {
+            alert(`Canceling Appointment ID: ${appointmentId}`);
+            // Send cancel request to the server or update the status in the table
+        }
+    </script>
+</body>
+</html>

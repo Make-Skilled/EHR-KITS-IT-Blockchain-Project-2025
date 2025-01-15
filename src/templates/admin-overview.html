@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard Sections</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            color: #1A76D1;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #1A76D1;
+            color: white;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .edit-btn {
+            background-color: #FFC107;
+            color: black;
+        }
+
+        .delete-btn {
+            background-color: #E63946;
+        }
+
+        .edit-btn:hover {
+            background-color: #DDAA06;
+        }
+
+        .delete-btn:hover {
+            background-color: #B22234;
+        }
+        .back-to-dashboard {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 1000; /* Ensure it stays above other elements */
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #1A76D1;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:hover {
+        background-color: #145BA8;
+    }
+    </style>
+</head>
+<body>
+    <div class="back-to-dashboard">
+        <a href="admin-dashboard.html" class="btn">Back</a>
+    </div>
+    
+    <div class="container">
+        <!-- Dashboard Overview Section -->
+        <div id="overview" class="section">
+            <h2>Dashboard Overview</h2>
+            <p>A quick summary of key system metrics.</p>
+            <ul>
+                <li><strong>Total Users:</strong> 150</li>
+                <li><strong>Total Appointments:</strong> 230</li>
+                <li><strong>Active Doctors:</strong> 50</li>
+                <li><strong>Pending Appointments:</strong> 20</li>
+            </ul>
+        </div>
+
+        <!-- User Management Section -->
+        <div id="user-management" class="section">
+            <h2>User Management</h2>
+            <p>Manage system users, including doctors, patients, and admins.</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>John Doe</td>
+                        <td>Doctor</td>
+                        <td>john.doe@example.com</td>
+                        <td>
+                            <button class="action-btn edit-btn">Edit</button>
+                            <button class="action-btn delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jane Smith</td>
+                        <td>Patient</td>
+                        <td>jane.smith@example.com</td>
+                        <td>
+                            <button class="action-btn edit-btn">Edit</button>
+                            <button class="action-btn delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Appointment Management Section -->
+        <div id="appointment-management" class="section">
+            <h2>Appointment Management</h2>
+            <p>Monitor and manage appointments between patients and doctors.</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>Patient</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>201</td>
+                        <td>Jane Doe</td>
+                        <td>Dr. John Doe</td>
+                        <td>2024-12-10</td>
+                        <td>Confirmed</td>
+                        <td>
+                            <button class="action-btn edit-btn">Edit</button>
+                            <button class="action-btn delete-btn">Cancel</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>202</td>
+                        <td>John Smith</td>
+                        <td>Dr. Jane Doe</td>
+                        <td>2024-12-15</td>
+                        <td>Pending</td>
+                        <td>
+                            <button class="action-btn edit-btn">Edit</button>
+                            <button class="action-btn delete-btn">Cancel</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Medical Records Section -->
+        <div id="medical-records" class="section">
+            <h2>Medical Records</h2>
+            <p>Review and manage medical records uploaded by doctors.</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Record ID</th>
+                        <th>Patient</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>501</td>
+                        <td>Jane Doe</td>
+                        <td>2024-11-01</td>
+                        <td>Blood Test Report</td>
+                        <td>
+                            <button class="action-btn edit-btn">View</button>
+                            <button class="action-btn delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>502</td>
+                        <td>John Smith</td>
+                        <td>2024-11-15</td>
+                        <td>X-Ray Report</td>
+                        <td>
+                            <button class="action-btn edit-btn">View</button>
+                            <button class="action-btn delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

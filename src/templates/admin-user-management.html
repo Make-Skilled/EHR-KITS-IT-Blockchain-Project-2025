@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management | Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1A76D1;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            color: #1A76D1;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #1A76D1;
+            color: white;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .edit-btn {
+            background-color: #FFC107;
+            color: black;
+        }
+
+        .delete-btn {
+            background-color: #E63946;
+        }
+
+        .edit-btn:hover {
+            background-color: #DDAA06;
+        }
+
+        .delete-btn:hover {
+            background-color: #B22234;
+        }
+
+        .add-user-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1A76D1;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .add-user-btn:hover {
+            background-color: #145BA8;
+        }
+        .back-to-dashboard {
+        position: absolute;
+        top: 20px;
+        right: 20px; /* Align to the top-right corner */
+        z-index: 1000; /* Ensure it stays above other elements */
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #1A76D1;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:hover {
+        background-color: #145BA8;
+    }
+    </style>
+</head>
+<body>
+    <div class="back-to-dashboard">
+        <a href="admin-dashboard.html" class="btn">Back</a>
+    </div>
+    
+    <div class="container">
+        <h1>User Management</h1>
+        <div class="section">
+            <h2>Manage Users</h2>
+            <p>View and manage all users (Admins, Doctors, Patients).</p>
+
+            <a href="admin-add-user.html" class="add-user-btn">Add New User</a> <!-- Link to Add User Page -->
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>John Doe</td>
+                        <td>Admin</td>
+                        <td>john.doe@example.com</td>
+                        <td>Active</td>
+                        <td>
+                            <button class="action-btn edit-btn">Edit</button>
+                            <button class="action-btn delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jane Smith</td>
+                        <td>Doctor</td>
+                        <td>jane.smith@example.com</td>
+                        <td>Active</td>
+                        <td>
+                            <button class="action-btn edit-btn">Edit</button>
+                            <button class="action-btn delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Alex Johnson</td>
+                        <td>Patient</td>
+                        <td>alex.johnson@example.com</td>
+                        <td>Inactive</td>
+                        <td>
+                            <button class="action-btn edit-btn">Edit</button>
+                            <button class="action-btn delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

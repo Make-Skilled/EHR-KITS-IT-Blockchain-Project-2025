@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Healthcare System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0056b3, #ffffff); /* Vibrant blue to white gradient */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .topbar {
+            width: 100%;
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .topbar .top-links,
+        .topbar .top-contact {
+            display: flex;
+            align-items: center;
+            list-style: none;
+        }
+
+        .topbar .top-links li,
+        .topbar .top-contact li {
+            margin: 0 15px;
+        }
+
+        .topbar .top-links a,
+        .topbar .top-contact a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .topbar .top-links a:hover,
+        .topbar .top-contact a:hover {
+            color: #ffc107;
+        }
+
+        .topbar .top-contact li i {
+            margin-right: 5px;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.5s ease-out;
+            margin-top: 80px;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #007bff;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .auth-footer a {
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Topbar -->
+    <div class="topbar">
+        <ul class="top-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="blog-single.html">Blog</a></li>
+        </ul>
+        <ul class="top-contact">
+            <li><i class="fa fa-phone"></i>+880 1234 56789</li>
+            <li><i class="fa fa-envelope"></i><a href="mailto:support@yourmail.com">support@yourmail.com</a></li>
+        </ul>
+    </div>
+
+    <!-- Login Container -->
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>Login</h2>
+        </div>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="input-group">
+                <label for="userType">Select User Type</label>
+                <select id="userType" required>
+                    <option value="" disabled selected>Choose an option</option>
+                    <option value="admin">Admin</option>
+                    <option value="doctor">Doctor</option>
+                    <option value="patient">Patient</option>
+                </select>
+            </div>
+
+            <p id="errorMessage" class="error-message" style="display: none;">Please fill out all fields!</p>
+
+            <button type="button" id="loginButton" class="auth-btn" disabled>Login</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+        </div>
+    </div>
+
+    <script>
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const userTypeDropdown = document.getElementById("userType");
+        const loginButton = document.getElementById("loginButton");
+        const errorMessage = document.getElementById("errorMessage");
+
+        // Enable the login button when all fields are filled
+        function validateForm() {
+            if (emailInput.value && passwordInput.value && userTypeDropdown.value) {
+                loginButton.disabled = false;
+                errorMessage.style.display = "none";
+            } else {
+                loginButton.disabled = true;
+            }
+        }
+
+        emailInput.addEventListener("input", validateForm);
+        passwordInput.addEventListener("input", validateForm);
+        userTypeDropdown.addEventListener("change", validateForm);
+
+        // Handle Login Button Click
+        loginButton.addEventListener("click", () => {
+            const userType = userTypeDropdown.value;
+
+            if (!emailInput.value || !passwordInput.value || !userType) {
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            // Redirect based on user type
+            if (userType === "admin") {
+                window.location.href = "admin-dashboard.html";
+            } else if (userType === "doctor") {
+                window.location.href = "doctor-dashboard.html";
+            } else if (userType === "patient") {
+                window.location.href = "patient-dashboard.html";
+            }
+        });
+    </script>
+</body>
+</html>

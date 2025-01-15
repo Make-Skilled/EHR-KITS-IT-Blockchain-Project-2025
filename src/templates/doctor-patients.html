@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigned Patients | Doctor Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .view-btn {
+            background-color: #007bff;
+        }
+
+        .message-btn {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .view-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .message-btn:hover {
+            background-color: #e0a800;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            color: #1A76D1;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: #145BA8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Assigned Patients</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Patient ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Assigned Doctor</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>101</td>
+                    <td>Jane Smith</td>
+                    <td>jane.smith@example.com</td>
+                    <td>29</td>
+                    <td>Dr. John Doe</td>
+                    <td>
+                        <button class="action-btn view-btn">View Details</button>
+                        <button class="action-btn message-btn">Send Message</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>102</td>
+                    <td>John Doe</td>
+                    <td>john.doe@example.com</td>
+                    <td>45</td>
+                    <td>Dr. Jane Smith</td>
+                    <td>
+                        <button class="action-btn view-btn">View Details</button>
+                        <button class="action-btn message-btn">Send Message</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>103</td>
+                    <td>Emily Stone</td>
+                    <td>emily.stone@example.com</td>
+                    <td>36</td>
+                    <td>Dr. John Doe</td>
+                    <td>
+                        <button class="action-btn view-btn">View Details</button>
+                        <button class="action-btn message-btn">Send Message</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="doctor-dashboard.html" class="back-btn">Back to Doctor Dashboard</a>
+    </div>
+
+    <script>
+        // Function to handle viewing patient details
+        function viewPatientDetails(patientId) {
+            alert(`Viewing details for patient ID: ${patientId}`);
+            // You can redirect to a separate page for patient details
+        }
+
+        // Function to handle sending messages to the patient
+        function sendMessage(patientId) {
+            alert(`Sending message to patient ID: ${patientId}`);
+            // You can redirect to a message page or pop up a modal
+        }
+    </script>
+</body>
+</html>

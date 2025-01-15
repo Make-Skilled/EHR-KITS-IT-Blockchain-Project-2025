@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Healthcare System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            background-image: linear-gradient(to right, #0056b3, #ffffff); /* Vibrant blue to white gradient */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .topbar {
+            width: 100%;
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar .links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .topbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .topbar a:hover {
+            color: #ffc107;
+        }
+
+        .topbar .contact {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .topbar .contact i {
+            margin-right: 5px;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.5s ease-out;
+            margin-top: 20px;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #0056b3;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background-color: #003d80;
+        }
+
+        .auth-footer {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .auth-footer a {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="contact.html">Contact</a>
+            <a href="blog-single.html">Blog</a>
+        </div>
+        <div class="contact">
+            <div><i class="fa fa-phone"></i> +880 1234 56789</div>
+            <div><i class="fa fa-envelope"></i> <a href="mailto:support@yourmail.com" style="color: white;">support@yourmail.com</a></div>
+        </div>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>Sign Up</h2>
+        </div>
+
+        <form id="signupForm">
+            <div class="input-group">
+                <label for="username">Full Name</label>
+                <input type="text" id="username" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter a password" required>
+            </div>
+
+            <div class="input-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" placeholder="Re-enter your password" required>
+            </div>
+
+            <div class="input-group">
+                <label for="userType">Select User Role</label>
+                <select id="userType" required>
+                    <option value="" disabled selected>Choose your role</option>
+                    <option value="admin">Admin</option>
+                    <option value="doctor">Doctor</option>
+                    <option value="patient">Patient</option>
+                </select>
+            </div>
+
+            <!-- Doctor-Specific Fields -->
+            <div id="doctorFields" style="display: none;">
+                <div class="input-group">
+                    <label for="license">Medical License Number</label>
+                    <input type="text" id="license" placeholder="Enter your license number">
+                </div>
+                <div class="input-group">
+                    <label for="specialization">Specialization</label>
+                    <input type="text" id="specialization" placeholder="Enter your specialization">
+                </div>
+            </div>
+
+            <!-- Admin-Specific Fields -->
+            <div id="adminFields" style="display: none;">
+                <div class="input-group">
+                    <label for="organizationName">Organization Name</label>
+                    <input type="text" id="organizationName" placeholder="Enter your organization name">
+                </div>
+                <div class="input-group">
+                    <label for="adminCode">Admin Verification Code</label>
+                    <input type="text" id="adminCode" placeholder="Enter admin verification code">
+                </div>
+            </div>
+
+            <!-- Patient-Specific Fields -->
+            <div id="patientFields" style="display: none;">
+                <div class="input-group">
+                    <label for="patientId">Patient ID</label>
+                    <input type="text" id="patientId" placeholder="Enter your patient ID">
+                </div>
+            </div>
+
+            <p id="errorMessage" class="error-message" style="display: none;">Please ensure all fields are filled correctly!</p>
+
+            <button type="button" id="signupButton" class="auth-btn">Sign Up</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="login.html">Log In</a></p>
+        </div>
+    </div>
+
+    <script>
+        const userTypeDropdown = document.getElementById("userType");
+        const doctorFields = document.getElementById("doctorFields");
+        const adminFields = document.getElementById("adminFields");
+        const patientFields = document.getElementById("patientFields");
+        const signupButton = document.getElementById("signupButton");
+        const errorMessage = document.getElementById("errorMessage");
+
+        // Show or hide additional fields based on user role
+        userTypeDropdown.addEventListener("change", () => {
+            const userType = userTypeDropdown.value;
+
+            doctorFields.style.display = userType === "doctor" ? "block" : "none";
+            adminFields.style.display = userType === "admin" ? "block" : "none";
+            patientFields.style.display = userType === "patient" ? "block" : "none";
+        });
+
+        // Handle Sign Up Button Click
+        signupButton.addEventListener("click", () => {
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            const userType = userTypeDropdown.value;
+
+            if (!username || !email || !password || !confirmPassword || !userType) {
+                errorMessage.textContent = "Please fill out all required fields!";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = "Passwords do not match!";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            if (userType === "doctor") {
+                const license = document.getElementById("license").value;
+                const specialization = document.getElementById("specialization").value;
+                if (!license || !specialization) {
+                    errorMessage.textContent = "Please fill out all doctor-specific fields!";
+                    errorMessage.style.display = "block";
+                    return;
+                }
+            }
+
+            if (userType === "admin") {
+                const organizationName = document.getElementById("organizationName").value;
+                const adminCode = document.getElementById("adminCode").value;
+                if (!organizationName || !adminCode) {
+                    errorMessage.textContent = "Please fill out all admin-specific fields!";
+                    errorMessage.style.display = "block";
+                    return;
+                }
+            }
+
+            if (userType === "patient") {
+                const patientId = document.getElementById("patientId").value;
+                if (!patientId) {
+                    errorMessage.textContent = "Please enter your patient ID!";
+                    errorMessage.style.display = "block";
+                    return;
+                }
+            }
+
+            // Redirect to respective dashboard
+            if (userType === "admin") {
+                window.location.href = "admin-dashboard.html";
+            } else if (userType === "doctor") {
+                window.location.href = "doctor-dashboard.html";
+            } else if (userType === "patient") {
+                window.location.href = `patient-dashboard.html?patientId=${document.getElementById("patientId").value}`;
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile | Patient Dashboard</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Content Wrapper */
+        .content-wrapper {
+            width: 100%;
+            max-width: 800px; /* Max width for the content */
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #0056b3;
+            font-size: 2.2rem;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .profile-section h2 {
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        .profile-section p {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .profile-section .label {
+            font-weight: bold;
+        }
+
+        .profile-section button {
+            padding: 10px 20px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s background-color;
+            display: block;
+            margin: 20px auto 0; /* Center the button */
+        }
+
+        .profile-section button:hover {
+            background-color: #003d80;
+        }
+
+        /* Back to Dashboard Button */
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            font-size: 14px;
+            color: #1A76D1;
+            transition: color 0.3s ease;
+            padding: 10px 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 1px solid #0056b3;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            color: #003d80;
+            border-color: #003d80;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 1rem;
+            color: #777;
+            margin-top: 30px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                padding: 20px;
+                width: 100%;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Main Content Wrapper -->
+    <div class="content-wrapper">
+        
+        <!-- Header Section -->
+        <div class="header">
+            <h1>My Profile</h1>
+            <div class="user-info">
+                <img src="img/patient-avatar.jpg" alt="Patient Avatar">
+                <span>Jane Doe</span>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <h2>Profile Details</h2>
+            <p><span class="label">Full Name:</span> Jane Doe</p>
+            <p><span class="label">Email:</span> jane.doe@example.com</p>
+            <p><span class="label">Phone:</span> +123 456 7890</p>
+            <p><span class="label">Address:</span> 1234 Elm St, Springfield, IL</p>
+            <button onclick="window.location.href='patient-edit-profile.html'">Edit Profile</button>
+        </div>
+
+        <!-- Back to Dashboard Button -->
+        <a href="patient-dashboard.html" class="back-btn">Back to Patient Dashboard</a>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Healthcare System | Patient Dashboard</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

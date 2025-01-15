@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | Patient Dashboard</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100%;
+            padding: 0;
+        }
+
+        /* Content Wrapper */
+        .content-wrapper {
+            width: 100%;
+            max-width: 800px; /* Max width for content */
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #0056b3;
+            font-size: 2.2rem;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        /* Notifications Section */
+        .notifications-section {
+            width: 100%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .notifications-section h2 {
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item .notification-content {
+            flex-grow: 1;
+        }
+
+        .notification-item .notification-content p {
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .notification-item .notification-content span {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .notification-item .mark-read-btn {
+            background-color: #0056b3;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            border: none;
+            transition: 0.3s background-color;
+        }
+
+        .notification-item .mark-read-btn:hover {
+            background-color: #003d80;
+        }
+
+        /* Back to Dashboard Button */
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            font-size: 14px;
+            color: #1A76D1;
+            transition: color 0.3s ease;
+            padding: 10px 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 1px solid #0056b3;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            color: #003d80;
+            border-color: #003d80;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 1rem;
+            color: #777;
+            margin-top: 30px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                padding: 20px;
+                width: 100%;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .table {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Content Wrapper -->
+    <div class="content-wrapper">
+        
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Notifications</h1>
+            <div class="user-info">
+                <img src="img/patient-avatar.jpg" alt="Patient Avatar">
+                <span>Jane Doe</span>
+            </div>
+        </div>
+
+        <!-- Notifications Section -->
+        <div class="notifications-section">
+            <h2>Recent Notifications</h2>
+
+            <!-- Notification 1 -->
+            <div class="notification-item">
+                <div class="notification-content">
+                    <p><strong>Appointment Confirmation</strong></p>
+                    <p>Your appointment with Dr. John Doe on 2024-12-10 has been confirmed.</p>
+                    <span>2024-12-01</span>
+                </div>
+                <button class="mark-read-btn">Mark as Read</button>
+            </div>
+
+            <!-- Notification 2 -->
+            <div class="notification-item">
+                <div class="notification-content">
+                    <p><strong>Medical Record Upload</strong></p>
+                    <p>New medical record uploaded: Blood Test Report</p>
+                    <span>2024-11-30</span>
+                </div>
+                <button class="mark-read-btn">Mark as Read</button>
+            </div>
+
+            <!-- Notification 3 -->
+            <div class="notification-item">
+                <div class="notification-content">
+                    <p><strong>Appointment Reminder</strong></p>
+                    <p>Reminder: Your appointment with Dr. Jane Smith is tomorrow, 2024-12-03.</p>
+                    <span>2024-12-02</span>
+                </div>
+                <button class="mark-read-btn">Mark as Read</button>
+            </div>
+
+        </div>
+
+        <!-- Back to Dashboard Button -->
+        <a href="patient-dashboard.html" class="back-btn">Back to Patient Dashboard</a>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Healthcare System | Patient Dashboard</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

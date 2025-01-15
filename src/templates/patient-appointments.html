@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard | Healthcare System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100%;
+            margin: 0;
+        }
+
+        /* Wrapper for the entire content */
+        .content-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #0056b3;
+            font-size: 2.2rem;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        /* Appointments Table */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        .table th, .table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            transition: 0.3s ease;
+        }
+
+        .action-btn.view {
+            background-color: #28a745;
+        }
+
+        .action-btn.cancel {
+            background-color: #e63946;
+        }
+
+        .action-btn.view:hover {
+            background-color: #218838;
+        }
+
+        .action-btn.cancel:hover {
+            background-color: #c82333;
+        }
+
+        /* Upload Medical Records Section */
+        .upload-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .upload-section h2 {
+            color: #2d3e50;
+            margin-bottom: 20px;
+        }
+
+        .upload-section input[type="file"] {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .upload-section button {
+            padding: 10px 20px;
+            background-color: #1A76D1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: 0.3s background-color;
+        }
+
+        .upload-section button:hover {
+            background-color: #145ba8;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 1rem;
+            color: #777;
+            margin-top: 30px;
+        }
+
+        /* Back to Dashboard Button */
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            font-size: 14px;
+            color: #1A76D1;
+            transition: color 0.3s ease;
+            padding: 10px 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 1px solid #0056b3;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            color: #003d80;
+            border-color: #003d80;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .table {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .table {
+                font-size: 0.8rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Main Content Wrapper -->
+    <div class="content-wrapper">
+        
+        <!-- Header Section -->
+        <div class="header">
+            <h1>My Appointments</h1>
+            <div class="user-info">
+                <img src="img/patient-avatar.jpg" alt="Patient Avatar">
+                <span>Jane Doe</span>
+            </div>
+        </div>
+
+        <!-- Appointments Table -->
+        <div class="section">
+            <h2>Upcoming Appointments</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>Doctor</th>
+                        <th>Appointment Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>Dr. John Doe</td>
+                        <td>2024-12-10</td>
+                        <td>Confirmed</td>
+                        <td>
+                            <button class="action-btn view">View</button>
+                            <button class="action-btn cancel">Cancel</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Dr. Jane Smith</td>
+                        <td>2024-12-15</td>
+                        <td>Pending</td>
+                        <td>
+                            <button class="action-btn view">View</button>
+                            <button class="action-btn cancel">Cancel</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Upload Medical Records Section -->
+        <div class="upload-section">
+            <h2>Upload Your Medical Records</h2>
+            <form action="/upload-record" method="POST" enctype="multipart/form-data">
+                <label for="medical-record">Choose Medical Record File:</label>
+                <input type="file" id="medical-record" name="medical-record" required>
+                <button type="submit">Upload Record</button>
+            </form>
+        </div>
+
+        <!-- Back to Dashboard Button -->
+        <a href="patient-dashboard.html" class="back-btn">Back to Patient Dashboard</a>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Healthcare System | Patient Dashboard</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
