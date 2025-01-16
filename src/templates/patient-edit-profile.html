@@ -169,41 +169,54 @@
         <div class="header">
             <h1>Edit Profile</h1>
             <div class="user-info">
-                <img src="img/patient-avatar.jpg" alt="Patient Avatar">
-                <span>Jane Doe</span>
+                <img src="{{pat.photo}}" alt="Patient Avatar">
+                <span>{{pat.name}}</span>
             </div>
         </div>
 
         <!-- Edit Profile Form Section -->
         <div class="edit-profile-section">
             <h2>Edit Your Profile</h2>
+            <form action="/patEditForm" method="POST">
+                <!-- Profile Fields -->
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" name="fullname" value="{{pat.name}}" required>
 
-            <!-- Profile Fields -->
-            <label for="full-name">Full Name</label>
-            <input type="text" id="full-name" value="Jane Doe" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{pat.email}}" readonly>
 
-            <label for="email">Email</label>
-            <input type="email" id="email" value="jane.doe@example.com" required>
+                <label for="wallet">Wallet</label>
+                <input type="text" id="wallet" name="wallet" value="{{pat.wallet}}" readonly>
 
-            <label for="phone">Phone</label>
-            <input type="tel" id="phone" value="+123 456 7890" required>
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" value="{{pat.phone}}" required>
 
-            <label for="address">Address</label>
-            <input type="text" id="address" value="1234 Elm St, Springfield, IL" required>
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" value="{{pat.address}}" required>
 
-            <label for="gender">Gender</label>
-            <select id="gender" required>
-                <option value="female" selected>Female</option>
-                <option value="male">Male</option>
-                <option value="other">Other</option>
-            </select>
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="{{pat.gender}}" selected>{{pat.gender}}</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
 
-            <!-- Save Changes Button -->
-            <button type="submit">Save Changes</button>
+                <!-- Save Changes Button -->
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+
+        <div class="edit-profile-section">
+            <form action="/uploadPatientPhoto" method="POST" enctype="multipart/form-data">
+                <label for="user_photo">Upload Photo:</label>
+                <input type="file" id="user_photo" name="user_photo" accept="image/*" required>
+                
+                <button type="submit">Update Photo</button>
+            </form>
         </div>
 
         <!-- Back to Dashboard Button -->
-        <a href="patient-dashboard.html" class="back-btn">Back to Patient Dashboard</a>
+        <a href="/patDashboard" class="back-btn">Back to Patient Dashboard</a>
 
         <!-- Footer -->
         <div class="footer">

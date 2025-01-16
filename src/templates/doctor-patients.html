@@ -103,49 +103,30 @@
                     <th>Patient ID</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Age</th>
-                    <th>Assigned Doctor</th>
+                    <th>Gender</th>
+                    <th>Phone</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>101</td>
-                    <td>Jane Smith</td>
-                    <td>jane.smith@example.com</td>
-                    <td>29</td>
-                    <td>Dr. John Doe</td>
-                    <td>
-                        <button class="action-btn view-btn">View Details</button>
-                        <button class="action-btn message-btn">Send Message</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>John Doe</td>
-                    <td>john.doe@example.com</td>
-                    <td>45</td>
-                    <td>Dr. Jane Smith</td>
-                    <td>
-                        <button class="action-btn view-btn">View Details</button>
-                        <button class="action-btn message-btn">Send Message</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>103</td>
-                    <td>Emily Stone</td>
-                    <td>emily.stone@example.com</td>
-                    <td>36</td>
-                    <td>Dr. John Doe</td>
-                    <td>
-                        <button class="action-btn view-btn">View Details</button>
-                        <button class="action-btn message-btn">Send Message</button>
-                    </td>
-                </tr>
+                {%for patient in users %}
+                    <tr>
+                        <td>{{patient.id}}</td>
+                        <td>{{patient.name}}</td>
+                        <td>{{patient.email}}</td>
+                        <td>{{patient.gender}}</td>
+                        <td>{{patient.address}}</td>
+                        <td>
+                            <a class="action-btn view-btn" style="text-decoration: none; color:white" href="/doctorViewPatient/{{patient.id}}">View Details</a>
+                            <a class="action-btn message-btn">Send Message</a>
+                        </td>
+                    </tr>
+                {%endfor%}
+               
             </tbody>
         </table>
 
-        <a href="doctor-dashboard.html" class="back-btn">Back to Doctor Dashboard</a>
+        <a href="/docDashboard" class="back-btn">Back to Doctor Dashboard</a>
     </div>
 
     <script>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Health Details Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align items from the top */
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .back-button {
+            position: absolute; /* Position the back button at the top right */
+            top: 10px;
+            right: 10px;
+            background-color: #007BFF; /* Blue color */
+            color: white;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px; 
+            width: auto;
+            text-align: center;
+        }
+        .back-button:hover {
+            background-color: #0056b3; /* Darker blue for hover */
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 80px; /* Space for header */
+        }
+        h2 {
+            text-align: center;
+            color: #007BFF; /* Blue color for heading */
+            margin-top: 0; /* Remove margin top */
+        }
+        label {
+            display: block;
+            margin: 8px 0 4px;
+        }
+        input, textarea, select {
+            width: 95%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF; /* Blue color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            max-width: 200px; /* Set a fixed width for the button */
+            width: auto; /* Allow the button to shrink or grow within max-width */
+            margin: 20px auto 0; /* Center the button */
+            display: block; /* Center the button in its parent */
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker blue for hover */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back button at the top right of the page -->
+    <button class="back-button" onclick="window.location.href='/adminAppointmentManagement'; return false;">Back</button>
+
+    <div class="container">
+        <!-- Heading at the start of the form with blue color -->
+        <h2>Patient Appointment Booking Form</h2>
+
+        <form action="/adminAddAppointmentForm" method="POST" enctype="multipart/form-data">
+            <label for="patient_id">Select Patient:</label>
+            <select id="patient_id" name="patient_id" onchange="populatePatientData()">
+                <option value="">-- Select Patient --</option>
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" readonly><br><br>
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" readonly><br><br>
+
+            <label for="gender">Gender:</label>
+            <input type="text" id="gender" name="gender" readonly><br><br>
+
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone" readonly><br><br>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" readonly><br><br>
+
+            <label for="status">Status:</label>
+            <input type="text" id="status" name="status" readonly><br><br>
+
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" required placeholder="Enter age"><br><br>
+            
+
+            <label for="joined_date">Joined Date</label>
+            <input type="date" id="joined_date" name="joined_date" required><br><br>
+
+            <label for="health_conditions">Health Conditions</label>
+            <textarea id="health_conditions" name="health_conditions" rows="4" placeholder="Enter details of any known health conditions"></textarea><br><br>
+
+            <label for="medications">Current Medications</label>
+            <textarea id="medications" name="medications" rows="4" placeholder="Enter any current medications"></textarea><br><br>
+
+            <label for="doctor_notes">Doctor's Notes</label>
+            <textarea id="doctor_notes" name="doctor_notes" rows="4" placeholder="Enter any additional doctor’s notes or instructions"></textarea><br><br>
+
+            <label for="health_records">Health Records</label>
+            <img src="" alt="Image Not Ready" id="image" name="image" height="200" width="200"/> <br/><br/>
+
+            <select id="doctor_id" name="doctor_id" >
+                <option value="">-- Select Doctor --</option>
+                {% for user in doctors %}
+                <option value="{{ user.id }}">{{ user.name}} --> {{user.specialization}}</option>
+                {% endfor %}
+            </select> <br/><br/>
+
+            <label for="appointment_date">Appointment Date</label>
+            <input type="datetime-local" id="appointment_date" name="appointment_date" required><br><br>
+
+            <button type="submit">Book Appointment</button>
+        </form>
+        <span style="color:red">{{err}}</span>
+        <span style="color:green">{{res}}</span>
+    </div>
+    <script>
+        // Function to populate input fields based on selected patient
+        function populatePatientData() {
+            const patientData = {{ users|tojson }}; // Pass users data as JSON to JavaScript
+            const selectedId = document.getElementById("patient_id").value;
+            
+            // Find the selected patient data
+            const selectedPatient = patientData.find(patient => patient.id == selectedId);
+
+            if (selectedPatient) {
+                // Populate input fields with the patient's data
+                document.getElementById("name").value = selectedPatient.name;
+                document.getElementById("email").value = selectedPatient.email;
+                document.getElementById("gender").value = selectedPatient.gender;
+                document.getElementById("phone").value = selectedPatient.phone;
+                document.getElementById("address").value = selectedPatient.address_details;
+                document.getElementById("status").value = selectedPatient.status ? "Active" : "Inactive";
+                document.getElementById('age').value=selectedPatient.age;
+                document.getElementById('joined_date').value=selectedPatient.date;
+                document.getElementById('health_conditions').value=selectedPatient.health_conditions;
+                document.getElementById('medications').value=selectedPatient.medications;
+                document.getElementById('doctor_notes').value=selectedPatient.doctor_notes;
+                document.getElementById('image').src=selectedPatient.recordPath;
+            }
+        }
+    </script>
+
+</body>
+</html>

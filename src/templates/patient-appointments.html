@@ -133,6 +133,20 @@
             border-radius: 5px;
         }
 
+        .upload-section input[type="date"] {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .upload-section input[type="text"] {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
         .upload-section button {
             padding: 10px 20px;
             background-color: #1A76D1;
@@ -210,14 +224,14 @@
         <div class="header">
             <h1>My Appointments</h1>
             <div class="user-info">
-                <img src="img/patient-avatar.jpg" alt="Patient Avatar">
-                <span>Jane Doe</span>
+                <img src="{{pat.photo}}" alt="Patient Avatar">
+                <span>{{pat.name}}</span>
             </div>
         </div>
 
         <!-- Appointments Table -->
         <div class="section">
-            <h2>Upcoming Appointments</h2>
+            <h2>All Appointments</h2>
             <table class="table">
                 <thead>
                     <tr>
@@ -229,26 +243,16 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {%for appointment in appointments%}
+
                     <tr>
-                        <td>101</td>
-                        <td>Dr. John Doe</td>
-                        <td>2024-12-10</td>
-                        <td>Confirmed</td>
-                        <td>
-                            <button class="action-btn view">View</button>
-                            <button class="action-btn cancel">Cancel</button>
-                        </td>
+                        <td>{{appointment.appointmentId}}</td>
+                        <td>{{appointment.doctorName}}</td>
+                        <td>{{appointment.date}}</td>
+                        <td>{{appointment.time}}</td>
+                        <td>{{appointment.status}}</td>
                     </tr>
-                    <tr>
-                        <td>102</td>
-                        <td>Dr. Jane Smith</td>
-                        <td>2024-12-15</td>
-                        <td>Pending</td>
-                        <td>
-                            <button class="action-btn view">View</button>
-                            <button class="action-btn cancel">Cancel</button>
-                        </td>
-                    </tr>
+                    {%endfor%}
                 </tbody>
             </table>
         </div>
@@ -256,15 +260,21 @@
         <!-- Upload Medical Records Section -->
         <div class="upload-section">
             <h2>Upload Your Medical Records</h2>
-            <form action="/upload-record" method="POST" enctype="multipart/form-data">
+            <form action="/uploadRecordsByPatientForm" method="POST" enctype="multipart/form-data">
+                <label for="date">Date</label>
+                <input type="date" name="date" /> <br/><br/>
+                <label for="description">Description</label>
+                <input type="text" name="description" /> <br/><br/>
                 <label for="medical-record">Choose Medical Record File:</label>
-                <input type="file" id="medical-record" name="medical-record" required>
+                <input type="file" id="file" name="file" required>
                 <button type="submit">Upload Record</button>
             </form>
+            <span style="color:red">{{err}}</span>
+            <span style="color:green">{{res}}</span>
         </div>
 
         <!-- Back to Dashboard Button -->
-        <a href="patient-dashboard.html" class="back-btn">Back to Patient Dashboard</a>
+        <a href="/patDashboard" class="back-btn">Back to Patient Dashboard</a>
 
         <!-- Footer -->
         <div class="footer">

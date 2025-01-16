@@ -78,50 +78,83 @@
 <body>
 
     <!-- Back button at the top right of the page -->
-    <button class="back-button" onclick="window.location.href='admin-dashboard.html'; return false;">Back</button>
+    <button class="back-button" onclick="window.location.href='/adminUserManagement'; return false;">Back</button>
 
     <div class="container">
         <!-- Heading at the start of the form with blue color -->
         <h2>Patient Health Details Form</h2>
 
-        <form action="/submit_patient_data" method="POST" enctype="multipart/form-data">
-            <label for="patient_id">Patient ID</label>
-            <input type="text" id="patient_id" name="patient_id" required placeholder="Enter patient ID">
-
-            <label for="first_name">Name</label>
-            <input type="text" id="first_name" name="first_name" required placeholder="Enter full name">
-
-            
-            <label for="age">Age</label>
-            <input type="number" id="age" name="age" required placeholder="Enter age">
-            <label for="last_name">Hospital/clinic Name</label>
-            <input type="text" id="last_name" name="last_name" required placeholder="Enter hospital/clinic name">
-
-            <label for="gender">Gender</label>
-            <select id="gender" name="gender">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
+        <form action="/adminAddUserForm" method="POST" enctype="multipart/form-data">
+            <label for="patient_id">Select Patient:</label>
+            <select id="patient_id" name="patient_id" onchange="populatePatientData()">
+                <option value="">-- Select Patient --</option>
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+                {% endfor %}
             </select>
 
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" readonly><br><br>
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" readonly><br><br>
+
+            <label for="gender">Gender:</label>
+            <input type="text" id="gender" name="gender" readonly><br><br>
+
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone" readonly><br><br>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" readonly><br><br>
+
+            <label for="status">Status:</label>
+            <input type="text" id="status" name="status" readonly><br><br>
+
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" required placeholder="Enter age"><br><br>
+            
+
             <label for="joined_date">Joined Date</label>
-            <input type="date" id="joined_date" name="joined_date" required>
+            <input type="date" id="joined_date" name="joined_date" required><br><br>
 
             <label for="health_conditions">Health Conditions</label>
-            <textarea id="health_conditions" name="health_conditions" rows="4" placeholder="Enter details of any known health conditions"></textarea>
+            <textarea id="health_conditions" name="health_conditions" rows="4" placeholder="Enter details of any known health conditions"></textarea><br><br>
 
             <label for="medications">Current Medications</label>
-            <textarea id="medications" name="medications" rows="4" placeholder="Enter any current medications"></textarea>
+            <textarea id="medications" name="medications" rows="4" placeholder="Enter any current medications"></textarea><br><br>
 
             <label for="doctor_notes">Doctor's Notes</label>
-            <textarea id="doctor_notes" name="doctor_notes" rows="4" placeholder="Enter any additional doctor’s notes or instructions"></textarea>
+            <textarea id="doctor_notes" name="doctor_notes" rows="4" placeholder="Enter any additional doctor’s notes or instructions"></textarea><br><br>
 
             <label for="health_records">Upload Health Records</label>
-            <input type="file" id="health_records" name="health_records">
+            <input type="file" id="health_records" name="health_records"><br><br>
 
             <button type="submit">Submit</button>
         </form>
+        <span style="color:red">{{err}}</span>
+        <span style="color:green">{{res}}</span>
     </div>
+    <script>
+        // Function to populate input fields based on selected patient
+        function populatePatientData() {
+            const patientData = {{ users|tojson }}; // Pass users data as JSON to JavaScript
+            const selectedId = document.getElementById("patient_id").value;
+            
+            // Find the selected patient data
+            const selectedPatient = patientData.find(patient => patient.id == selectedId);
+
+            if (selectedPatient) {
+                // Populate input fields with the patient's data
+                document.getElementById("name").value = selectedPatient.name;
+                document.getElementById("email").value = selectedPatient.email;
+                document.getElementById("gender").value = selectedPatient.gender;
+                document.getElementById("phone").value = selectedPatient.phone;
+                document.getElementById("address").value = selectedPatient.address_details;
+                document.getElementById("status").value = selectedPatient.status ? "Active" : "Inactive";
+            }
+        }
+    </script>
 
 </body>
 </html>

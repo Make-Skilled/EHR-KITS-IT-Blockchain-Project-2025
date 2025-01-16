@@ -272,27 +272,18 @@
     <div class="sidebar">
         <h2>Doctor Dashboard</h2>
         <nav>
-            <a href="doctor-dashboard.html">Overview</a>
-            <a href="doctor-patients.html">Assigned Patients</a>
-            <a href="doctor-appointments.html">Manage Appointments</a>
-            <a href="doctor-records.html">Upload Medical Records</a>
+            <a href="/docDashboard">Overview</a>
+            <a href="/docAssignedPatients">Assigned Patients</a>
+            <a href="/docAppointments">Manage Appointments</a>
+            <a href="/uploadRecordsByDoctor">Upload Medical Records</a>
             <a href="doctor-notifications.html">Notifications</a>
         </nav>
         <!-- Modified logout to redirect to home page -->
-        <div class="logout" onclick="logout()">Logout</div>
+        <a class="logout" style="text-decoration: none;color:white" href="/logout">Logout</a>
     </div>
 
     <!-- Main Content -->
     <div class="content">
-        <!-- Header -->
-        <div class="header">
-            <h1>Welcome, Dr. John Doe</h1>
-            <div class="user-info">
-                <img src="img/doctor-avatar.jpg" alt="Doctor Avatar">
-                <span>John Doe</span>
-            </div>
-        </div>
-
         <!-- Cards Section -->
         <div class="cards">
             <div class="card">
@@ -326,35 +317,26 @@
                     <tr>
                         <th>Appointment ID</th>
                         <th>Patient Name</th>
-                        <th>Doctor</th>
-                        <th>Appointment Date</th>
+                        <th>Date</th>
+                        <th>Time</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Jane Doe</td>
-                        <td>Dr. John Doe</td>
-                        <td>2024-12-01</td>
-                        <td>Confirmed</td>
-                        <td>
-                            <button class="action-btn edit">Edit</button>
-                            <button class="action-btn delete">Cancel</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>John Smith</td>
-                        <td>Dr. Jane Smith</td>
-                        <td>2024-12-03</td>
-                        <td>Pending</td>
-                        <td>
-                            <button class="action-btn edit">Edit</button>
-                            <button class="action-btn delete">Cancel</button>
-                        </td>
-                    </tr>
+                    {%for appointment in appointments%}
+                        <tr>
+                            <td>{{appointment.appointmentId}}</td>
+                            <td>{{appointment.patientName}}</td>
+                            <td>{{appointment.date}}</td>
+                            <td>{{appointment.time}}</td>
+                            <td>{{appointment.status}}</td>
+                            <td>
+                                <button class="action-btn edit" onclick="editAppointment({{ appointment.appointmentId }})"">Edit</button>
+                                <button class="action-btn delete" onclick="cancelAppointment({{ appointment.appointmentId }})">Cancel</button>
+                            </td>
+                        </tr>
+                    {%endfor%}
                 </tbody>
             </table>
         </div>
@@ -367,8 +349,30 @@
 
     <!-- JavaScript for Logout -->
     <script>
-        function logout() {
-            window.location.href = "index.html";  // Redirect to home page
+        function editAppointment(appointmentId) {
+            // Redirect to the edit appointment page
+            window.location.href = `/editDoctorAppointment/${appointmentId}`;
+        }
+
+        function cancelAppointment(appointmentId) {
+            if (confirm(`Are you sure you want to cancel appointment ID ${appointmentId}?`)) {
+                // Send a POST request to cancel the appointment
+                fetch(`/cancelAppointment/${appointmentId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        alert(`Appointment ID ${appointmentId} has been canceled.`);
+                        location.reload(); // Reload the page to update the table
+                    } else {
+                        alert(`Failed to cancel appointment ID ${appointmentId}.`);
+                    }
+                });
+            }
         }
     </script>
 

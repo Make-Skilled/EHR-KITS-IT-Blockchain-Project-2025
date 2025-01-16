@@ -192,8 +192,8 @@
         <div class="header">
             <h1>My Medical Records</h1>
             <div class="user-info">
-                <img src="img/patient-avatar.jpg" alt="Patient Avatar">
-                <span>Jane Doe</span>
+                <img src="{{pat.photo}}" alt="Patient Avatar">
+                <span>{{pat.name}}</span>
             </div>
         </div>
 
@@ -215,36 +215,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>001</td>
-                        <td>2024-11-01</td>
-                        <td>Blood Test Report</td>
-                        <td>
-                            <button class="action-btn download">Download</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>002</td>
-                        <td>2024-11-05</td>
-                        <td>X-Ray Report</td>
-                        <td>
-                            <button class="action-btn download">Download</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>003</td>
-                        <td>2024-11-15</td>
-                        <td>Ultrasound Report</td>
-                        <td>
-                            <button class="action-btn download">Download</button>
-                        </td>
-                    </tr>
+                    {%for record in records %}
+                        <tr>
+                            <td>{{record.recordId}}</td>
+                            <td>{{record.date}}</td>
+                            <td>{{record.description}}</td>
+                            <td>
+                                <a class="action-btn download" style="text-decoration: none;" href="/{{record.filePath}}">Download</a>
+                            </td>
+                        </tr>
+                    {%endfor%}
                 </tbody>
             </table>
         </div>
 
         <!-- Back to Dashboard Button -->
-        <a href="patient-dashboard.html" class="back-btn">Back to Patient Dashboard</a>
+        <a href="/patDashboard" class="back-btn">Back to Patient Dashboard</a>
 
         <!-- Footer -->
         <div class="footer">

@@ -26,6 +26,10 @@ contract UserManagement {
     string _patientName;
     string _patientPassword;
     string _patientEmail;
+    string _patientGender;
+    string _patientPhone;
+    string _patientHomeAddress;
+    string _patientProfilePhoto;
     bool _exist;
   }
 
@@ -70,7 +74,7 @@ contract UserManagement {
     require(!_patients[wallet]._exist, "Account exist for this wallet");
     patId += 1;
 
-    Patient memory new_patient = Patient(wallet, patId, name, password, email, true);
+    Patient memory new_patient = Patient(wallet, patId, name, password, email,"NA","NA","NA","NA",true);
     _patients[wallet] = new_patient;
     _patientwallets.push(wallet);
   }
@@ -143,9 +147,65 @@ contract UserManagement {
     return false;
   }
 
+  function viewPatientByEmail(string memory email) public view returns (Patient memory) {
+    for (uint i = 0; i < _patientwallets.length; i++) {
+        Patient memory pat = _patients[_patientwallets[i]];
+        if (keccak256(bytes(pat._patientEmail)) == keccak256(bytes(email))) {
+            return pat;
+        }
+    }
+    revert("Patient with the given email does not exist");
+  }
+
+  function updatePatientByEmail(string memory name,string memory email,string memory gender,string memory phone,string memory homeAddress) public {
+    for (uint i = 0; i < _patientwallets.length; i++) {
+        if (keccak256(bytes(_patients[_patientwallets[i]]._patientEmail)) == keccak256(bytes(email))) {
+            _patients[_patientwallets[i]]._patientName = name;
+            _patients[_patientwallets[i]]._patientGender = gender;
+            _patients[_patientwallets[i]]._patientPhone = phone;
+            _patients[_patientwallets[i]]._patientHomeAddress = homeAddress;
+            return; // Exit the function after updating
+        }
+    }
+
+    revert("Patient with the given email does not exist");
+  }
+
+  function updatePatientPhoto(string memory photo,string memory email) public {
+    for (uint i = 0; i < _patientwallets.length; i++) {
+        if (keccak256(bytes(_patients[_patientwallets[i]]._patientEmail)) == keccak256(bytes(email))) {
+          _patients[_patientwallets[i]]._patientProfilePhoto=photo;
+          return;
+        }
+    }
+    revert("Patient with the given email does not exist");
+  }
+
+  function viewDoctorByEmail(string memory email) public view returns (Doctor memory){
+    for(uint i=0; i<_doctorwallets.length;i++){
+      Doctor memory doc = _doctors[_doctorwallets[i]];
+      if (keccak256(bytes(doc._doctorEmail)) == keccak256(bytes(email))){
+        return doc;
+      }
+    }
+    revert("Doctor with the given email does not exist");
+  }
+
+
   // It has to return admin wallet address, admin username
   function viewAdmin() public view returns (address, string memory) {
     // Read Operation only
     return (admin, adminUsername);
+  }
+
+  function getDoctorNameById(uint docI) public view returns (string memory) {
+    Doctor memory doctor = viewDoctorById(docI);
+    return doctor._doctorName;
+  }
+
+  // Retrieve patient name by ID
+  function getPatientNameById(uint patI) public view returns (string memory) {
+      Patient memory patient = viewPatientById(patI);
+      return patient._patientName;
   }
 }

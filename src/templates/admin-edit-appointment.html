@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Appointment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align items from the top */
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .back-button {
+            position: absolute; /* Position the back button at the top right */
+            top: 10px;
+            right: 10px;
+            background-color: #007BFF; /* Blue color */
+            color: white;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px; 
+            width: auto;
+            text-align: center;
+        }
+        .back-button:hover {
+            background-color: #0056b3; /* Darker blue for hover */
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 80px; /* Space for header */
+        }
+        h2 {
+            text-align: center;
+            color: #007BFF; /* Blue color for heading */
+            margin-top: 0; /* Remove margin top */
+        }
+        label {
+            display: block;
+            margin: 8px 0 4px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF; /* Blue color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            max-width: 200px; /* Set a fixed width for the button */
+            width: auto; /* Allow the button to shrink or grow within max-width */
+            margin: 20px auto 0; /* Center the button */
+            display: block; /* Center the button in its parent */
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker blue for hover */
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='/adminAppointmentManagement'; return false;">Back</button>
+    <div class="container">
+        <h1>Edit Appointment</h1>
+        <form action="/updateAppointment" method="POST">
+            <!-- Hidden input to store appointment ID -->
+            <input type="hidden" name="appointment_id" value="{{ appointment['id'] }}">
+
+            <label for="patient">Patient Name:</label>
+            <input type="text" id="patient" name="patient" value="{{ patient }}" readonly><br><br>
+
+            <label for="doctor">Doctor Name:</label>
+            <input type="text" id="doctor" name="doctor" value="{{ doctor }}" readonly><br><br>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" value="{{ appointment['datetime'].split('T')[0] }}" required><br><br>
+
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" value="{{ appointment['datetime'].split('T')[1] }}" required><br><br>
+
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="Pending" {% if appointment['status'] == 'Pending' %}selected{% endif %}>Pending</option>
+                <option value="Completed" {% if appointment['status'] == 'Completed' %}selected{% endif %}>Completed</option>
+                <option value="Canceled" {% if appointment['status'] == 'Canceled' %}selected{% endif %}>Canceled</option>
+            </select><br><br>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>

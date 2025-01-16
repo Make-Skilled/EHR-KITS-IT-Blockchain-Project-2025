@@ -63,10 +63,33 @@
             top: 0;
             left: 0;
             padding: 20px;
+            box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 60px;
+            padding: 10px;
+        }
+
+        .sidebar .toggle-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-content {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+            height: calc(100% - 60px); /* Adjust height to exclude the toggle button */
+        }
+
+        .sidebar.collapsed .sidebar-content {
+            display: none; /* Hide all content except the toggle button */
         }
 
         .sidebar h2 {
@@ -100,6 +123,18 @@
         .sidebar .logout:hover {
             background-color: #a71d2a;
         }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .sidebar.collapsed ~ .content {
+            margin-left: 60px;
+        }
+
+
         /* Main Content */
         .content {
             margin-left: 250px;
@@ -176,7 +211,7 @@
 
         /* Table Styling */
         .table {
-            width: 100%;
+            width: 90%;
             border-collapse: collapse;
             margin-top: 20px;
         }
@@ -219,6 +254,32 @@
         }
 
         .action-btn.delete:hover {
+            background-color: #B22234;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .edit-btn {
+            background-color: #FFC107;
+            color: black;
+        }
+
+        .cancel-btn {
+            background-color: #E63946;
+        }
+
+        .edit-btn:hover {
+            background-color: #DDAA06;
+        }
+
+        .cancel-btn:hover {
             background-color: #B22234;
         }
 
@@ -266,25 +327,28 @@
 </head>
 <body>
     <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>Admin Dashboard</h2>
-        <nav>
-            <a href="admin-overview.html" class="active">Dashboard Overview</a>
-            <a href="admin-user-management.html">User Management</a>
-            <a href="admin-appointment-management.html">Appointment Management</a>
-            <a href="admin-medical-records.html">Medical Records</a>
-            <a href="admin-system-settings.html">System Settings</a>
-        </nav>
-        <div class="logout" onclick="logout()">Logout</div>
+    <div class="sidebar" id="sidebar">
+        <button id="toggle-sidebar" class="toggle-btn">&#9776;</button> <!-- Toggle Icon -->
+        <div class="sidebar-content">
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <a href="/adminOverview" class="active">Dashboard Overview</a>
+                <a href="/adminUserManagement">User Management</a>
+                <a href="/adminAppointmentManagement">Appointment Management</a>
+                <a href="/adminMedicalRecords">Medical Records</a>
+                <a href="/adminSystemSettings">System Settings</a>
+            </nav>
+            <a class="logout" style="text-decoration: none; color:white" href="/logout">Logout</a>
+        </div>
     </div>
-
+    
     <!-- Main Content -->
     <div class="content">
         <!-- Header -->
         <div class="header">
             <h1>Welcome, Admin!</h1>
             <div class="user-info">
-                <img src="img/admin.jpg" alt="User Avatar">
+                <img src="static/img/admin.jpg" alt="User Avatar">
                 <span>Ramya</span>
             </div>
         </div>
@@ -317,40 +381,33 @@
         <!-- Appointments Table -->
         <div class="section">
             <h2>Upcoming Appointments</h2>
-            <table class="table">
+            <table class="table" id="appointments-table">
                 <thead>
                     <tr>
                         <th>Appointment ID</th>
                         <th>Patient Name</th>
                         <th>Doctor</th>
-                        <th>Appointment Date</th>
+                        <th>Date</th>
+                        <th>Time</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for appointment in appointments %}
                     <tr>
-                        <td>1</td>
-                        <td>Jane Doe</td>
-                        <td>Dr. John Doe</td>
-                        <td>2024-12-01</td>
-                        <td>Confirmed</td>
+                        <td>{{ appointment.id }}</td>
+                        <td> {{ appointment.patient_id }}</td> <!-- Replace with actual patient name -->
+                        <td> {{ appointment.doctor_id }}</td> <!-- Replace with actual doctor name -->
+                        <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.time }}</td>
+                        <td>{{ appointment.status }}</td>
                         <td>
-                            <button class="action-btn edit">Edit</button>
-                            <button class="action-btn delete">Cancel</button>
+                            <button class="action-btn edit-btn" onclick="editAppointment({{ appointment.id }})">Edit</button>
+                            <button class="action-btn cancel-btn" onclick="cancelAppointment({{ appointment.id }})">Cancel</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>John Smith</td>
-                        <td>Dr. Jane Smith</td>
-                        <td>2024-12-03</td>
-                        <td>Pending</td>
-                        <td>
-                            <button class="action-btn edit">Edit</button>
-                            <button class="action-btn delete">Cancel</button>
-                        </td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -362,5 +419,41 @@
             window.location.href = 'index.html'; // assuming 'index.html' is the home page
         }
     </script>
+    <script>
+        document.getElementById("toggle-sidebar").addEventListener("click", function () {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("collapsed");
+        });
+    </script>
+
+    <script>
+        function editAppointment(appointmentId) {
+            // Redirect to the edit appointment page
+            window.location.href = `/editAppointment/${appointmentId}`;
+        }
+
+        function cancelAppointment(appointmentId) {
+            if (confirm(`Are you sure you want to cancel appointment ID ${appointmentId}?`)) {
+                // Send a POST request to cancel the appointment
+                fetch(`/cancelAppointment/${appointmentId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        alert(`Appointment ID ${appointmentId} has been canceled.`);
+                        location.reload(); // Reload the page to update the table
+                    } else {
+                        alert(`Failed to cancel appointment ID ${appointmentId}.`);
+                    }
+                });
+            }
+        }
+    </script>
+    
+    
 </body>
 </html>

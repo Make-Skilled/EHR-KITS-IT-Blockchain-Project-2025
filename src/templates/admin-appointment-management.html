@@ -153,15 +153,33 @@
         .btn:hover {
             background-color: #145BA8;
         }
+        .add-user-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1A76D1;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .add-user-btn:hover {
+            background-color: #145BA8;
+        }
     </style>
 </head>
 <body>
     <div class="back-to-dashboard">
-        <a href="admin-dashboard.html" class="btn">Back</a>
+        <a href="/adminDashboard" class="btn">Back</a>
     </div>
     
     <div class="container">
         <h1>Appointment Management</h1>
+        <a href="/adminAddAppointment" class="add-user-btn">Add New Appointment</a> <!-- Link to Add User Page -->
 
         <!-- Filter Section -->
         <div class="filter-section">
@@ -173,6 +191,7 @@
                 <label for="status-filter">Filter by Status:</label>
                 <select id="status-filter">
                     <option value="">Select Status</option>
+                    <option value="Completed">Completed</option>
                     <option value="Confirmed">Confirmed</option>
                     <option value="Pending">Pending</option>
                     <option value="Canceled">Canceled</option>
@@ -193,46 +212,29 @@
                         <th>Patient Name</th>
                         <th>Doctor</th>
                         <th>Date</th>
+                        <th>Time</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for appointment in appointments %}
                     <tr>
-                        <td>101</td>
-                        <td>Jane Smith</td>
-                        <td>Dr. John Doe</td>
-                        <td>2024-12-10</td>
-                        <td>Confirmed</td>
+                        <td>{{ appointment.id }}</td>
+                        <td> {{ appointment.patient_id }}</td> <!-- Replace with actual patient name -->
+                        <td> {{ appointment.doctor_id }}</td> <!-- Replace with actual doctor name -->
+                        <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.time }}</td>
+                        <td>{{ appointment.status }}</td>
                         <td>
-                            <button class="action-btn edit-btn" onclick="editAppointment(101)">Edit</button>
-                            <button class="action-btn cancel-btn" onclick="cancelAppointment(101)">Cancel</button>
+                            <button class="action-btn edit-btn" onclick="editAppointment({{ appointment.id }})">Edit</button>
+                            <button class="action-btn cancel-btn" onclick="cancelAppointment({{ appointment.id }})">Cancel</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>102</td>
-                        <td>John Doe</td>
-                        <td>Dr. Jane Smith</td>
-                        <td>2024-12-15</td>
-                        <td>Pending</td>
-                        <td>
-                            <button class="action-btn edit-btn" onclick="editAppointment(102)">Edit</button>
-                            <button class="action-btn cancel-btn" onclick="cancelAppointment(102)">Cancel</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>103</td>
-                        <td>Emily Stone</td>
-                        <td>Dr. John Doe</td>
-                        <td>2024-12-20</td>
-                        <td>Canceled</td>
-                        <td>
-                            <button class="action-btn edit-btn" onclick="editAppointment(103)">Edit</button>
-                            <button class="action-btn cancel-btn" onclick="cancelAppointment(103)">Cancel</button>
-                        </td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
+            
         </div>
     </div>
 
@@ -246,7 +248,8 @@
 
             rows.forEach(row => {
                 const patientName = row.cells[1].textContent.toLowerCase();
-                const appointmentStatus = row.cells[4].textContent.toLowerCase();
+                const appointmentStatus = row.cells[5].textContent.toLowerCase();
+                console.log(appointmentStatus);
 
                 const matchesName = patientName.includes(name);
                 const matchesStatus = status === '' || appointmentStatus === status;
@@ -266,17 +269,35 @@
             console.log(`Appointment ID ${appointmentId} status updated to: ${newStatus}`);
         }
 
-        // Function to handle the "Edit" action for an appointment
+        
+    </script>
+    <script>
         function editAppointment(appointmentId) {
-            alert(`Editing Appointment ID: ${appointmentId}`);
-            // Redirect to edit page or open modal for editing appointment details
+            // Redirect to the edit appointment page
+            window.location.href = `/editAppointment/${appointmentId}`;
         }
-
-        // Function to handle the "Cancel" action for an appointment
+    
         function cancelAppointment(appointmentId) {
-            alert(`Canceling Appointment ID: ${appointmentId}`);
-            // Send cancel request to the server or update the status in the table
+            if (confirm(`Are you sure you want to cancel appointment ID ${appointmentId}?`)) {
+                // Send a POST request to cancel the appointment
+                fetch(`/cancelAppointment/${appointmentId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        alert(`Appointment ID ${appointmentId} has been canceled.`);
+                        location.reload(); // Reload the page to update the table
+                    } else {
+                        alert(`Failed to cancel appointment ID ${appointmentId}.`);
+                    }
+                });
+            }
         }
     </script>
+    
 </body>
 </html>

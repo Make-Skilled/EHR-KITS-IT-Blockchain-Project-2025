@@ -150,7 +150,7 @@
 </head>
 <body>
     <div class="back-to-dashboard">
-        <a href="admin-dashboard.html" class="btn">Back</a>
+        <a href="/adminDashboard" class="btn">Back</a>
     </div>
     <div class="container">
         <h1>Medical Records Management</h1>
@@ -181,47 +181,27 @@
                 <thead>
                     <tr>
                         <th>Record ID</th>
+                        <th>Patient ID</th>
                         <th>Patient Name</th>
-                        <th>Doctor</th>
                         <th>Date</th>
                         <th>Description</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="records-body">
-                    <tr>
-                        <td>101</td>
-                        <td>Jane Smith</td>
-                        <td>Dr. John Doe</td>
-                        <td>2024-12-01</td>
-                        <td>Blood Test</td>
-                        <td>
-                            <button class="action-btn view-btn" onclick="viewRecord(101)">View</button>
-                            <button class="action-btn delete-btn" onclick="deleteRecord(101)">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>102</td>
-                        <td>John Doe</td>
-                        <td>Dr. Jane Smith</td>
-                        <td>2024-12-05</td>
-                        <td>X-Ray Report</td>
-                        <td>
-                            <button class="action-btn view-btn" onclick="viewRecord(102)">View</button>
-                            <button class="action-btn delete-btn" onclick="deleteRecord(102)">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>103</td>
-                        <td>Alex Johnson</td>
-                        <td>Dr. John Doe</td>
-                        <td>2024-12-10</td>
-                        <td>MRI Scan</td>
-                        <td>
-                            <button class="action-btn view-btn" onclick="viewRecord(103)">View</button>
-                            <button class="action-btn delete-btn" onclick="deleteRecord(103)">Delete</button>
-                        </td>
-                    </tr>
+                    {%for record in records %}
+                        <tr>
+                            <td>{{record.recordId}}</td>
+                            <td>{{record.patientId}}</td>
+                            <td>{{record.patientName}}</td>
+                            <td>{{record.date}}</td>
+                            <td>{{record.description}}</td>
+                            <td>
+                                <a class="action-btn view-btn" href="/{{record.filePath}}" style="text-decoration: none; color: black">View</a>
+                            </td>
+                        </tr>
+                    {%endfor%}
+                    
                 </tbody>
             </table>
         </div>
@@ -236,7 +216,7 @@
 
             const rows = document.querySelectorAll('#records-body tr');
             rows.forEach(row => {
-                const patientName = row.cells[1].textContent.toLowerCase();
+                const patientName = row.cells[2].textContent.toLowerCase();
                 const recordDate = row.cells[3].textContent;
                 const recordID = row.cells[0].textContent;
 

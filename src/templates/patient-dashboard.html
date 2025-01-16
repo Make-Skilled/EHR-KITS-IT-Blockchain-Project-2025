@@ -274,23 +274,23 @@
     <div class="sidebar">
         <h2>Patient Dashboard</h2>
         <nav>
-            <a href="patient-dashboard.html">Overview</a>
-            <a href="patient-appointments.html">My Appointments</a>
-            <a href="patient-medical-records.html" class="active">My Medical Records</a>
-            <a href="patient-profile.html">Profile</a>
+            <a href="/patDashboard">Overview</a>
+            <a href="/patAppointments">My Appointments</a>
+            <a href="/patRecords">My Medical Records</a>
+            <a href="/patProfile">Profile</a>
             <a href="patient-notifications.html">Notifications</a>
         </nav>
-        <div class="logout" onclick="logout()">Logout</div>
+        <a class="logout" style="text-decoration: none; color: white"  href="/logout">Logout</a>
     </div>
 
     <!-- Main Content -->
     <div class="content">
         <!-- Header -->
         <div class="header">
-            <h1>Welcome, Jane Doe!</h1>
+            <h1>Welcome, {{pat.name}}!</h1>
             <div class="user-info">
-                <img src="img/patient-avatar.jpg" alt="Patient Avatar">
-                <span>Jane Doe</span>
+                <img src="{{pat.photo}}" alt="Patient Avatar">
+                <span>{{pat.name}}</span>
             </div>
         </div>
 
@@ -328,31 +328,20 @@
                         <th>Appointment ID</th>
                         <th>Doctor</th>
                         <th>Date</th>
+                        <th>Time</th>
                         <th>Status</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>101</td>
-                        <td>Dr. John Doe</td>
-                        <td>2024-12-10</td>
-                        <td>Confirmed</td>
-                        <td>
-                            <button class="action-btn view">View</button>
-                            <button class="action-btn delete">Cancel</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>102</td>
-                        <td>Dr. Jane Smith</td>
-                        <td>2024-12-15</td>
-                        <td>Pending</td>
-                        <td>
-                            <button class="action-btn view">View</button>
-                            <button class="action-btn delete">Cancel</button>
-                        </td>
-                    </tr>
+                    {% for appointment in appointments %}
+                        <tr>
+                            <td>{{appointment.appointmentId}}</td>
+                            <td>{{appointment.doctorName}}</td>
+                            <td>{{appointment.date}}</td>
+                            <td>{{appointment.time}}</td>
+                            <td>{{appointment.status}}</td>
+                        </tr>
+                    {%endfor%}
                 </tbody>
             </table>
         </div>

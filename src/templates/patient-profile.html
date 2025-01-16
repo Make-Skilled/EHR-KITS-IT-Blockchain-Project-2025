@@ -157,23 +157,26 @@
         <div class="header">
             <h1>My Profile</h1>
             <div class="user-info">
-                <img src="img/patient-avatar.jpg" alt="Patient Avatar">
-                <span>Jane Doe</span>
+                <img src="{{pat.photo}}" alt="Patient Avatar">
+                <span>{{pat.name}}</span>
             </div>
         </div>
 
         <!-- Profile Section -->
         <div class="profile-section">
             <h2>Profile Details</h2>
-            <p><span class="label">Full Name:</span> Jane Doe</p>
-            <p><span class="label">Email:</span> jane.doe@example.com</p>
-            <p><span class="label">Phone:</span> +123 456 7890</p>
-            <p><span class="label">Address:</span> 1234 Elm St, Springfield, IL</p>
-            <button onclick="window.location.href='patient-edit-profile.html'">Edit Profile</button>
+            <p><span class="label">Full Name:</span> {{pat.name}}</p>
+            <p><span class="label">Email:</span> {{pat.email}}</p>
+            <p><span class="label">Id:</span> {{pat.id}}</p>
+            <p><span class="label">Wallet Address:</span> {{pat.wallet}}</p>
+            <p><span class="label">Gender: </span> {{pat.gender}}</p>
+            <p><span class="label">Phone: </span> {{pat.phone}}</p>
+            <p><span class="label">Address: </span>{{pat.address}}</p>
+            <button onclick="window.location.href='/patEditProfile'">Edit Profile</button>
         </div>
 
         <!-- Back to Dashboard Button -->
-        <a href="patient-dashboard.html" class="back-btn">Back to Patient Dashboard</a>
+        <a href="/patDashboard" class="back-btn">Back to Patient Dashboard</a>
 
         <!-- Footer -->
         <div class="footer">
