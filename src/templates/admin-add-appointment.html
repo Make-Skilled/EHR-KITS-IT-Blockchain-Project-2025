@@ -10,9 +10,8 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align items from the top */
-            height: 100vh;
+            flex-direction: column; /* Stack content vertically */
+            min-height: 100vh; /* Ensure the body takes the full viewport height */
             background-color: #f4f4f9;
         }
         .back-button {
@@ -33,6 +32,7 @@
             background-color: #0056b3; /* Darker blue for hover */
         }
         .container {
+            flex: 1; /* Allows the container to take up remaining space, pushing footer down */
             width: 100%;
             max-width: 600px;
             padding: 20px;
@@ -40,7 +40,7 @@
             border-radius: 8px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 80px; /* Space for header */
+            margin: 80px auto; /* Center with space from the top */
         }
         h2 {
             text-align: center;
@@ -72,6 +72,13 @@
         }
         button:hover {
             background-color: #0056b3; /* Darker blue for hover */
+        }
+        footer {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            margin-top: auto; /* Pushes the footer to the bottom */
         }
     </style>
 </head>
@@ -145,6 +152,9 @@
         <span style="color:red">{{err}}</span>
         <span style="color:green">{{res}}</span>
     </div>
+    <footer>
+        <p>&copy; 2025 EHR. All rights reserved.</p>
+    </footer>
     <script>
         // Function to populate input fields based on selected patient
         function populatePatientData() {
@@ -171,6 +181,7 @@
             }
         }
     </script>
+    
 
 </body>
 </html>
