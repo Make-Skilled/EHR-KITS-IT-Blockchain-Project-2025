@@ -351,7 +351,7 @@
                 <a href="/adminUserManagement">User Management</a>
                 <a href="/adminAppointmentManagement">Appointment Management</a>
                 <a href="/adminMedicalRecords">Medical Records</a>
-                <a href="/adminSystemSettings">System Settings</a>
+
             </nav>
             <a class="logout" style="text-decoration: none; color:white" href="/logout">Logout</a>
         </div>
@@ -374,21 +374,21 @@
                 <div class="icon">
                     <i class="material-icons">person_add</i>
                 </div>
-                <h3>120</h3>
+                <h3>{{total_users}}</h3>
                 <p>Total Users</p>
             </div>
             <div class="card">
                 <div class="icon">
                     <i class="material-icons">calendar_today</i>
                 </div>
-                <h3>50</h3>
-                <p>Appointments Today</p>
+                <h3>{{total_appointments}}</h3>
+                <p>Total Appointments</p>
             </div>
             <div class="card">
                 <div class="icon">
                     <i class="material-icons">folder_special</i>
                 </div>
-                <h3>200</h3>
+                <h3>{{total_records}}</h3>
                 <p>Medical Records</p>
             </div>
         </div>

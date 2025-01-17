@@ -276,7 +276,7 @@
             <a href="/docAssignedPatients">Assigned Patients</a>
             <a href="/docAppointments">Manage Appointments</a>
             <a href="/uploadRecordsByDoctor">Upload Medical Records</a>
-            <a href="doctor-notifications.html">Notifications</a>
+            <a href="/docNotifications">Notifications</a>
         </nav>
         <!-- Modified logout to redirect to home page -->
         <a class="logout" style="text-decoration: none;color:white" href="/logout">Logout</a>
@@ -290,21 +290,21 @@
                 <div class="icon">
                     <i class="material-icons">person_add</i>
                 </div>
-                <h3>120</h3>
+                <h3>{{total_patients}}</h3>
                 <p>Total Patients</p>
             </div>
             <div class="card">
                 <div class="icon">
                     <i class="material-icons">calendar_today</i>
                 </div>
-                <h3>50</h3>
-                <p>Appointments Today</p>
+                <h3>{{total_appointments}}</h3>
+                <p>Total Appointments</p>
             </div>
             <div class="card">
                 <div class="icon">
                     <i class="material-icons">folder_special</i>
                 </div>
-                <h3>200</h3>
+                <h3>{{total_records}}</h3>
                 <p>Medical Records</p>
             </div>
         </div>

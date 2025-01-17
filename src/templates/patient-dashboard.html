@@ -284,7 +284,7 @@
             <a href="/patAppointments">My Appointments</a>
             <a href="/patRecords">My Medical Records</a>
             <a href="/patProfile">Profile</a>
-            <a href="patient-notifications.html">Notifications</a>
+            <a href="/patNotifications">Notifications</a>
         </nav>
         <a class="logout" style="text-decoration: none; color: white"  href="/logout">Logout</a>
     </div>
@@ -306,21 +306,21 @@
                 <div class="icon">
                     <i class="material-icons">calendar_today</i>
                 </div>
-                <h3>5</h3>
+                <h3>{{upcoming_appointments}}</h3>
                 <p>Upcoming Appointments</p>
             </div>
             <div class="card">
                 <div class="icon">
                     <i class="material-icons">folder_special</i>
                 </div>
-                <h3>12</h3>
+                <h3>{{total_records}}</h3>
                 <p>Medical Records</p>
             </div>
             <div class="card">
                 <div class="icon">
                     <i class="material-icons">notifications</i>
                 </div>
-                <h3>3</h3>
+                <h3>{{new_notifications}}</h3>
                 <p>New Notifications</p>
             </div>
         </div>

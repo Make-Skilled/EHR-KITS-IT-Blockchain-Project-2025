@@ -102,42 +102,21 @@
 
     <div class="container">
         <h1>Notifications</h1>
-
-        <!-- Notification Items -->
-        <div class="notification-item">
-            <div class="notification-content">
-                <p><strong>[2024-12-01]</strong> Your appointment with Jane Smith has been confirmed.</p>
-                <span>Appointment Confirmation</span>
+        {%for note in notes %}
+            <!-- Notification Items -->
+            <div class="notification-item">
+                <div class="notification-content">
+                    <p><strong>{{note[3]}}</strong> {{note[2]}}.</p>
+                    <span>{{note[1]}}</span>
+                </div>
+                {%if note[5]==False%}
+                    <a class="view-btn" style="text-decoration: none; color: white" href="/markNotification/{{note[0]}}">Mark as Read</a>
+                {%endif%}
             </div>
-            <button class="view-btn" onclick="viewNotification(1)">View</button>
-        </div>
-
-        <div class="notification-item">
-            <div class="notification-content">
-                <p><strong>[2024-12-03]</strong> New medical record uploaded for John Doe.</p>
-                <span>New Medical Record</span>
-            </div>
-            <button class="view-btn" onclick="viewNotification(2)">View</button>
-        </div>
-
-        <div class="notification-item">
-            <div class="notification-content">
-                <p><strong>[2024-12-05]</strong> Your appointment with Emily Stone is pending confirmation.</p>
-                <span>Pending Appointment</span>
-            </div>
-            <button class="view-btn" onclick="viewNotification(3)">View</button>
-        </div>
-
-        <div class="notification-item">
-            <div class="notification-content">
-                <p><strong>[2024-12-07]</strong> A new appointment has been scheduled with Michael Johnson.</p>
-                <span>New Appointment Scheduled</span>
-            </div>
-            <button class="view-btn" onclick="viewNotification(4)">View</button>
-        </div>
+        {%endfor%}
 
         <!-- Back Link -->
-        <a href="doctor-dashboard.html" class="back-btn">Back to Doctor Dashboard</a>
+        <a href="/docDashboard" class="back-btn">Back to Doctor Dashboard</a>
         <div class="footer">
             <p>&copy; 2025 EHR. All rights reserved.</p>
         </div>

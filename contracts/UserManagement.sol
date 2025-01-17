@@ -6,8 +6,7 @@ contract UserManagement {
   string adminUsername = "admin@gmail.com";
   string adminPassword = "admin123";
 
-  uint docId;
-  uint patId;
+  uint userd;
 
   struct Doctor {
     address _doctorAddress; // Mandatory
@@ -42,8 +41,7 @@ contract UserManagement {
 
   constructor() {
     admin = msg.sender; // msg.sender is a global variable where it is holding the address of contract invoker
-    docId = 0;
-    patId = 0;
+    userd=0;
   }
 
   // ValidateAdmin will verify login details of admin passed by frontend
@@ -62,9 +60,9 @@ contract UserManagement {
   // It will create an account of doctor
   function addDoctor(address wallet, string memory name, string memory password, string memory email, string memory doclicense, string memory docspecial) public {
     require(!_doctors[wallet]._exist, "Account exist for this wallet");
-    docId += 1;
+    userd += 1;
 
-    Doctor memory new_doctor = Doctor(wallet, docId, name, password, email, doclicense, docspecial, true);
+    Doctor memory new_doctor = Doctor(wallet, userd, name, password, email, doclicense, docspecial, true);
     _doctors[wallet] = new_doctor;
     _doctorwallets.push(wallet);
   }
@@ -72,9 +70,9 @@ contract UserManagement {
   // It will create an account of patient
   function addPatient(address wallet, string memory name, string memory password, string memory email) public {
     require(!_patients[wallet]._exist, "Account exist for this wallet");
-    patId += 1;
+    userd += 1;
 
-    Patient memory new_patient = Patient(wallet, patId, name, password, email,"NA","NA","NA","NA",true);
+    Patient memory new_patient = Patient(wallet, userd, name, password, email,"NA","NA","NA","NA",true);
     _patients[wallet] = new_patient;
     _patientwallets.push(wallet);
   }
@@ -115,15 +113,37 @@ contract UserManagement {
 
   // It will return only one record of doctor based on doctor id
   function viewDoctorById(uint docI) public view returns (Doctor memory) {
-    require(docI > 0 && docI <= _doctorwallets.length, "Invalid doctor ID");
-    return _doctors[_doctorwallets[docI - 1]];
+    require(docI > 0, "Invalid doctor ID");
+
+    // Iterate through all registered doctors to find the one with the matching ID
+    for (uint256 i = 0; i < _doctorwallets.length; i++) {
+        Doctor memory doctor = _doctors[_doctorwallets[i]];
+        if (doctor._doctorId == docI) {
+            return doctor;
+        }
+    }
+
+    // Revert if no doctor is found with the given ID
+    revert("Doctor with the given ID does not exist");
   }
+
 
   // It will return only one record of patient based on patient id
   function viewPatientById(uint patI) public view returns (Patient memory) {
-    require(patI > 0 && patI <= _patientwallets.length, "Invalid patient ID");
-    return _patients[_patientwallets[patI - 1]];
+    require(patI > 0, "Invalid patient ID");
+
+    // Iterate through all registered patients to find the one with the matching ID
+    for (uint256 i = 0; i < _patientwallets.length; i++) {
+        Patient memory patient = _patients[_patientwallets[i]];
+        if (patient._patientId == patI) {
+            return patient;
+        }
+    }
+
+    // Revert if no patient is found with the given ID
+    revert("Patient with the given ID does not exist");
   }
+
 
   // It will validate the login details of doctor
   function doctorLogin(string memory email, string memory password) public view returns (bool) {

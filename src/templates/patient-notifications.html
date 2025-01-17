@@ -105,18 +105,22 @@
         }
 
         .notification-item .mark-read-btn {
-            background-color: #0056b3;
-            color: white;
-            padding: 8px 16px;
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            font-size: 14px;
+            color: black;
+            transition: color 0.3s ease;
+            padding: 10px 20px;
+            background-color: #ede20b;
             border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            border: none;
-            transition: 0.3s background-color;
+            border: 1px solid #0056b3;
+            text-align: center;
         }
 
         .notification-item .mark-read-btn:hover {
             background-color: #003d80;
+            color: white;
         }
 
         /* Back to Dashboard Button */
@@ -184,49 +188,31 @@
         <div class="header">
             <h1>Notifications</h1>
             <div class="user-info">
-                <img src="img/patient-avatar.jpg" alt="Patient Avatar">
-                <span>Jane Doe</span>
+                <img src="{{pat.photo}}" alt="Patient Avatar">
+                <span>{{pat.name}}</span>
             </div>
         </div>
 
         <!-- Notifications Section -->
         <div class="notifications-section">
             <h2>Recent Notifications</h2>
-
-            <!-- Notification 1 -->
-            <div class="notification-item">
-                <div class="notification-content">
-                    <p><strong>Appointment Confirmation</strong></p>
-                    <p>Your appointment with Dr. John Doe on 2024-12-10 has been confirmed.</p>
-                    <span>2024-12-01</span>
+            {%for note in notes %}
+                <!-- Notification 1 -->
+                <div class="notification-item">
+                    <div class="notification-content">
+                        <p><strong>ID: {{note[0]}}, {{note[1]}}</strong></p>
+                        <p>{{note[2]}}</p>
+                        <span>{{note[3]}}</span>
+                    </div>
+                    {%if note[5]==False%}
+                        <a class="mark-read-btn" href="/markNotification/{{note[0]}}" style="text-decoration: none;">Mark as Read</a>
+                    {%endif%}
                 </div>
-                <button class="mark-read-btn">Mark as Read</button>
-            </div>
-
-            <!-- Notification 2 -->
-            <div class="notification-item">
-                <div class="notification-content">
-                    <p><strong>Medical Record Upload</strong></p>
-                    <p>New medical record uploaded: Blood Test Report</p>
-                    <span>2024-11-30</span>
-                </div>
-                <button class="mark-read-btn">Mark as Read</button>
-            </div>
-
-            <!-- Notification 3 -->
-            <div class="notification-item">
-                <div class="notification-content">
-                    <p><strong>Appointment Reminder</strong></p>
-                    <p>Reminder: Your appointment with Dr. Jane Smith is tomorrow, 2024-12-03.</p>
-                    <span>2024-12-02</span>
-                </div>
-                <button class="mark-read-btn">Mark as Read</button>
-            </div>
-
+            {%endfor%}
         </div>
 
         <!-- Back to Dashboard Button -->
-        <a href="patient-dashboard.html" class="back-btn">Back to Patient Dashboard</a>
+        <a href="/patDashboard" class="back-btn">Back to Patient Dashboard</a>
 
         <!-- Footer -->
         <div class="footer">

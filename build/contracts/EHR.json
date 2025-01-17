@@ -30862,12 +30862,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xA2ECe0e676B416fC31BB320366394524fA8324c9",
-      "transactionHash": "0x496839c57f30d77fee28f23e6bc2173741d1faee121c32448372e9e8ebe1638d"
+      "address": "0x35c7cFcb01d5d883E99Cd0fD6C0b3c7272D98F57",
+      "transactionHash": "0x6e502d144e7f438e671cf5270bfce0fdae0fd062b6347eb02c2ecc05e33b09d5"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-01-16T14:38:38.956Z",
+  "updatedAt": "2025-01-17T11:15:03.321Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

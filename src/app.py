@@ -9,6 +9,7 @@ from datetime import datetime
 
 UserManagementArtifactPath="../build/contracts/UserManagement.json"
 EHRArtifactPath="../build/contracts/EHR.json"
+NotificationArtifactPath="../build/contracts/NotificationManagement.json"
 blockchainServer="http://127.0.0.1:7545"
 
 def connectWithContract(wallet,artifact=UserManagementArtifactPath):
@@ -29,6 +30,13 @@ def connectWithContract(wallet,artifact=UserManagementArtifactPath):
     contract=web3.eth.contract(abi=contract_abi,address=contract_address)
     print('Contract Selected')
     return contract,web3
+
+def sendNotification(title,description,date,to):
+    print('Sending Notification')
+    notcontract,web3=connectWithContract(0,NotificationArtifactPath)
+    tx_hash=notcontract.functions.addNotification(title,description,date,to).transact()
+    web3.eth.waitForTransactionReceipt(tx_hash)
+    print('Notification Sent')
 
 app=Flask(__name__)
 app.secret_key="M@keskilled0"
@@ -66,9 +74,13 @@ def signupForm():
             specialization=request.form['specialization']
             tx_hash=contract.functions.addDoctor(wallet,name,password,email,license,specialization).transact()
             web3.eth.waitForTransactionReceipt(tx_hash)
+            doc=contract.functions.viewDoctorByEmail(email).call()
+            sendNotification("Account Signup","Successfully Created Account",str(datetime.now().date()),doc[1])
         elif role=="patient":
             tx_hash=contract.functions.addPatient(wallet,name,password,email).transact()
             web3.eth.waitForTransactionReceipt(tx_hash)
+            pat=contract.functions.viewPatientByEmail(email).call()
+            sendNotification("Account Signup","Successfully Created Account",str(datetime.now().date()),pat[1])
         return render_template("signup.html",res="account successfully created")
     except Exception as e:
         print(e)
@@ -128,6 +140,14 @@ def logout():
 
 @app.route('/docDashboard')
 def docDashboard():
+    contract,web3=connectWithContract(0)
+    ehrcontract,web3=connectWithContract(0,EHRArtifactPath)
+    doctors=contract.functions.viewAllDoctors().call()
+    patients=contract.functions.viewAllPatients().call()
+    total_users=len(doctors)+len(patients)
+    recordsArray=ehrcontract.functions.getAllMedicalRecords().call()
+    total_records=len(recordsArray)
+
     doc={}
     doc['name']=session['docName']
     doc['email']=session['docEmail']
@@ -142,15 +162,16 @@ def docDashboard():
     for appointment in appointments:
         appData=ehrcontract.functions.getAppointment(appointment).call()
         myApp={}
+        print(appData)
         if(appData[2]==session['docId'] and appData[-1]!='Completed'):
             myApp['appointmentId']=appData[0]
-            myApp['patientName']= contract.functions.getPatientNameById(appData[2]).call()
+            myApp['patientName']= contract.functions.getPatientNameById(appData[1]).call()
             myApp['date']=appData[3].split('T')[0]
             myApp['time']=appData[3].split('T')[-1]
             myApp['status']=appData[4]
             myAppointments.append(myApp)
     print(myAppointments)
-    return render_template('doctor-dashboard.html',doc=doc,appointments=myAppointments)
+    return render_template('doctor-dashboard.html',doc=doc,total_patients=len(patients),appointments=myAppointments,total_appointments=len(appointments),total_records=total_records)
 
 @app.route('/editDoctorAppointment/<int:appointment_id>', methods=['GET'])
 def editDoctorAppointment(appointment_id):
@@ -187,6 +208,9 @@ def updateDoctorAppointment():
     contract, web3 = connectWithContract(0, EHRArtifactPath)
     txn = contract.functions.updateAppointmentWithDate(int(appointment_id),status,datetime_str).transact()
     web3.eth.wait_for_transaction_receipt(txn)
+    appo=list(contract.functions.getAppointment(int(appointment_id)).call())
+    sendNotification("Appointment Progress","There is a change detected in the appointment id: " + str(appo[0]) + ", updated status: "+appo[-1],str(datetime.now().date()),appo[1])
+    sendNotification("Appointment Progress","There is a change detected in the appointment id: " + str(appo[0]) +  ", updated status: "+appo[-1],str(datetime.now().date()),appo[2])
     return redirect('/docDashboard')
 
 @app.route('/docAssignedPatients')
@@ -262,7 +286,7 @@ def docAppointments():
         myApp={}
         if(appData[2]==session['docId']):
             myApp['appointmentId']=appData[0]
-            myApp['patientName']= contract.functions.getPatientNameById(appData[2]).call()
+            myApp['patientName']= contract.functions.getPatientNameById(appData[1]).call()
             myApp['date']=appData[3].split('T')[0]
             myApp['time']=appData[3].split('T')[-1]
             myApp['status']=appData[4]
@@ -305,12 +329,22 @@ def uploadRecordsByDoctorForm():
         tx_hash = contract.functions.addMedicalRecord(int(patientId), unique_filename,date,description).transact()
         web3.eth.wait_for_transaction_receipt(tx_hash)
 
+        sendNotification("Record Uploaded","Record uploaded successfuly, "+description,date,int(patientId))
+        sendNotification("Record Uploaded","Patient Record uploaded  successfuly, "+description,date,int(session['docId']))
         return render_template('doctor-records.html', res='Record Added Successfully')
 
     except Exception as e:
         # Handle errors and display a message to the user
         error_message = f"An error occurred: {str(e)}"
         return render_template('doctor-records.html', err=error_message)
+
+@app.route('/docNotifications')
+def docNotifications():
+    notcontract,web3=connectWithContract(0,NotificationArtifactPath)
+    notes=notcontract.functions.getNotifications(session['docId']).call()
+    notes=notes[::-1]
+    print(notes)
+    return render_template('doctor-notifications.html',notes=notes)
 
 @app.route('/patDashboard')
 def patDashboard():
@@ -338,7 +372,16 @@ def patDashboard():
             myApp['status']=appData[4]
             myAppointments.append(myApp)
     print(myAppointments)
-    return render_template('patient-dashboard.html',pat=pat,appointments=myAppointments)
+    records=ehrcontract.functions.getMedicalRecords(session['patId']).call()
+    print(records)
+    notecontract,web3=connectWithContract(0,NotificationArtifactPath)
+    notes=notecontract.functions.getNotifications(session['patId']).call()
+    print(notes)
+    count=0
+    for note in notes:
+        if note[-1]==False:
+            count+=1
+    return render_template('patient-dashboard.html',new_notifications=count,total_records=len(records),pat=pat,appointments=myAppointments,upcoming_appointments=len(myAppointments))
 
 @app.route('/patProfile')
 def patProfile():
@@ -391,6 +434,8 @@ def patEditForm():
     try:
         tx_hash=contract.functions.updatePatientByEmail(fullname,email,gender,phone,address).transact()
         web3.eth.waitForTransactionReceipt(tx_hash)
+        pat=contract.functions.viewPatientByEmail(email).call()
+        sendNotification('Profile Notification', "Profile Updated successfully",str(datetime.now().date()),pat[1])
         return redirect('/patProfile')
     except Exception as e:
         print(e)
@@ -417,6 +462,8 @@ def uploadPatientPhoto():
     try:
         tx_hash=contract.functions.updatePatientPhoto(user_photo_path,session['patEmail']).transact()
         web3.eth.waitForTransactionReceipt(tx_hash)
+        pat=contract.functions.viewPatientByEmail(session['patEmail']).call()
+        sendNotification('Profile Notification', "Photo Updated successfully",str(datetime.now().date()),pat[1])
     except Exception as e:
         print(e)
     return redirect('/patProfile')
@@ -469,7 +516,7 @@ def patRecords():
         records_dict_list = []
         print(records_dict_list)
         print(E)
-        return render_template('patient-medical-records.html',records=records_dict_list)
+        return render_template('patient-medical-records.html',pat=pat,records=records_dict_list)
 
 @app.route('/uploadRecordsByPatientForm',methods=['POST'])
 def uploadRecordsByPatientForm():
@@ -518,7 +565,8 @@ def uploadRecordsByPatientForm():
         # Add the medical record to the contract
         tx_hash = contract.functions.addMedicalRecord(int(patientId), unique_filename,date,description).transact()
         web3.eth.wait_for_transaction_receipt(tx_hash)
-
+        
+        sendNotification('Record Notification', "Record Updated successfully",str(datetime.now().date()),int(patientId))
         return render_template('patient-appointments.html', pat=pat, res='Record Added Successfully',appointments=myAppointments)
 
     except Exception as e:
@@ -526,24 +574,60 @@ def uploadRecordsByPatientForm():
         error_message = f"An error occurred: {str(e)}"
         return render_template('patient-appointments.html', pat=pat, err=error_message,appointments=myAppointments)
 
+@app.route('/patNotifications')
+def patNotifications():
+    pat={}
+    pat['name']=session['patName']
+    pat['photo']=session['patPhoto']
+    notcontract,web3=connectWithContract(0,NotificationArtifactPath)
+    notes=notcontract.functions.getNotifications(session['patId']).call()
+    notes=notes[::-1]
+    print(notes)
+    return render_template('patient-notifications.html',pat=pat,notes=notes)
+
+@app.route('/markNotification/<noteid>')
+def markNotification(noteid):
+    noteid=int(noteid)
+    notcontract,web3=connectWithContract(0,NotificationArtifactPath)
+    try:
+        tx_hash=notcontract.functions.markAsRead(session['patId'],noteid).transact()
+        web3.eth.waitForTransactionReceipt(tx_hash)
+        return redirect('/patNotifications')
+    except:
+        tx_hash=notcontract.functions.markAsRead(session['docId'],noteid).transact()
+        web3.eth.waitForTransactionReceipt(tx_hash)
+        return redirect('/docNotifications')
+    
+    
 @app.route('/adminDashboard')
 def adminDashboard():
+    contract,web3=connectWithContract(0)
+    ehrcontract,web3=connectWithContract(0,EHRArtifactPath)
+    doctors=contract.functions.viewAllDoctors().call()
+    patients=contract.functions.viewAllPatients().call()
+    total_users=len(doctors)+len(patients)
+    recordsArray=ehrcontract.functions.getAllMedicalRecords().call()
+    total_records=len(recordsArray)
+
     ehrcontract,web3=connectWithContract(0,EHRArtifactPath)
     appointmentsList=ehrcontract.functions.getAllAppointmentIds().call()
     contract,web3=connectWithContract(0)
     appointments = []
+    total_appointments=len(appointmentsList)
     for appointment_id in appointmentsList:
         appointment = ehrcontract.functions.getAppointment(appointment_id).call()
         date, time = appointment[3].split("T")
-        appointments.append({
-            "id": appointment[0],
-            "patient_id": contract.functions.getPatientNameById(appointment[1]).call(),
-            "doctor_id": contract.functions.getDoctorNameById(appointment[2]).call(),
-            "date": date,
-            "time": time,
-            "status": appointment[4],
-        })
-    return render_template('admin-dashboard.html',appointments=appointments)
+        print(appointment)
+        if(appointment[4]!='Completed'):
+            appointments.append({
+                "id": appointment[0],
+                "patient_id": contract.functions.getPatientNameById(appointment[1]).call(),
+                "doctor_id": contract.functions.getDoctorNameById(appointment[2]).call(),
+                "date": date,
+                "time": time,
+                "status": appointment[4],
+            })
+    return render_template('admin-dashboard.html',total_appointments=total_appointments,total_users=total_users,total_records=total_records,appointments=appointments)
 
 @app.route('/adminOverview')
 def adminOverview():
@@ -654,6 +738,8 @@ def updateAppointment():
     contract, web3 = connectWithContract(0, EHRArtifactPath)
     txn = contract.functions.updateAppointmentWithDate(int(appointment_id),status,datetime_str).transact()
     web3.eth.wait_for_transaction_receipt(txn)
+    pat=list(contract.functions.getAppointment(int(appointment_id)).call())
+    sendNotification('Appointment Notification', "Your appointment status updated to " + pat[-1],str(datetime.now().date()),pat[1])
     return redirect('/adminAppointmentManagement')
 
 @app.route('/approveAppointment/<int:appointment_id>', methods=['POST'])
@@ -665,6 +751,8 @@ def approveAppointment(appointment_id):
         # Call the smart contract's cancellation function
         txn = contract.functions.updateAppointment(appointment_id, "Accepted").transact({"from": web3.eth.default_account})
         web3.eth.wait_for_transaction_receipt(txn)
+        pat=list(contract.functions.getAppointment(int(appointment_id)).call())
+        sendNotification('Appointment Notification', "Your appointment status updated to " + pat[-1],str(datetime.now().date()),pat[1])
 
         return {"success": True}, 200
     except Exception as e:
@@ -680,6 +768,8 @@ def cancelAppointment(appointment_id):
         # Call the smart contract's cancellation function
         txn = contract.functions.updateAppointment(appointment_id, "Canceled").transact({"from": web3.eth.default_account})
         web3.eth.wait_for_transaction_receipt(txn)
+        pat=list(contract.functions.getAppointment(int(appointment_id)).call())
+        sendNotification('Appointment Notification', "Your appointment status updated to " + pat[-1],str(datetime.now().date()),pat[1])
 
         return {"success": True}, 200
     except Exception as e:
@@ -786,6 +876,7 @@ def adminAddUserForm():
         try:
             tx_hash=contract.functions.addPatientRecord(filename,int(patient_id),int(age),joined_date,health_conditions,medications,doctor_notes).transact()
             web3.eth.waitForTransactionReceipt(tx_hash)
+            sendNotification('Appointment Notification', "Your appointment Booked successfully",str(datetime.now().date()),int(patient_id))
             return render_template('admin-add-user.html',users=formatted_patientList,res='User Added successfully')
         except Exception as E:
             return render_template('admin-add-user.html',users=formatted_patientList,err=E)
@@ -796,6 +887,7 @@ def delete_patient(patient_id):
     # Call the smart contract's deletePatientRecord function
     txn = contract.functions.deletePatientRecord(patient_id).transact()
     web3.eth.wait_for_transaction_receipt(txn)
+    sendNotification('Appointment Notification', "Your appointment Revoked successfully, consult hospital.",str(datetime.now().date()),int(patient_id))
     return redirect('/adminUserManagement')
 
 @app.route("/edit_patient/<int:patient_id>", methods=["GET", "POST"])
@@ -823,6 +915,7 @@ def edit_patient(patient_id):
         ).transact()
 
         web3.eth.wait_for_transaction_receipt(txn)
+        sendNotification('Appointment Notification', "Your appointment updated successfully",str(datetime.now().date()),int(patient_id))
 
         return redirect('/adminUserManagement')
 
@@ -836,6 +929,7 @@ def edit_patient(patient_id):
 def adminAddAppointment():
     contract,web3=connectWithContract(0)
     patientList=contract.functions.viewAllPatients().call()
+    print(patientList)
 
     contract,web3=connectWithContract(0,EHRArtifactPath)
 
@@ -856,7 +950,10 @@ def adminAddAppointment():
     ]
     
     for i in formatted_patientList:
-        patientRecord=contract.functions.getPatientRecord(i['id']).call()
+        try:
+            patientRecord=contract.functions.getPatientRecord(i['id']).call()
+        except:
+            patientRecord=['NA','NA','NA','NA','NA','NA']
         print(patientRecord)
         i['recordPath']=patientRecord[0]
         i['age']=patientRecord[1]
@@ -907,7 +1004,10 @@ def adminAddAppointmentForm():
     ]
     
     for i in formatted_patientList:
-        patientRecord=contract.functions.getPatientRecord(i['id']).call()
+        try:
+            patientRecord=contract.functions.getPatientRecord(i['id']).call()
+        except:
+            patientRecord=['NA','NA','NA','NA','NA','NA']
         print(patientRecord)
         i['recordPath']=patientRecord[0]
         i['age']=patientRecord[1]
@@ -929,6 +1029,8 @@ def adminAddAppointmentForm():
         contract,web3=connectWithContract(0,EHRArtifactPath)
         tx_hash=contract.functions.bookAppointment(patient_id,doctor_id,appointment_date).transact()
         web3.eth.waitForTransactionReceipt(tx_hash)
+        sendNotification('Appointment Notification', "Your appointment Booked successfully",str(datetime.now().date()),int(patient_id))
+        sendNotification('Appointment Notification', "An appointment Booked successfully",str(datetime.now().date()),int(doctor_id))
         return redirect('/adminAppointmentManagement')
     except Exception as E:
         return render_template('admin-add-appointment.html',users=formatted_patientList,doctors=formatted_data,err=E)
