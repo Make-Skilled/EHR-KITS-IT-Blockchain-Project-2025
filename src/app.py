@@ -547,7 +547,40 @@ def adminDashboard():
 
 @app.route('/adminOverview')
 def adminOverview():
-    return render_template('admin-overview.html')
+    contract,web3=connectWithContract(0)
+    ehrcontract,web3=connectWithContract(0,EHRArtifactPath)
+    doctors=contract.functions.viewAllDoctors().call()
+    patients=contract.functions.viewAllPatients().call()
+    total_users=len(doctors)+len(patients)
+    appointmentIds=ehrcontract.functions.getAllAppointmentIds().call()
+    total_appointments=len(appointmentIds)
+    appointmentsArray=[]
+    total_pending_appointments=0
+    for i in appointmentIds:
+        appointment=ehrcontract.functions.getAppointment(i).call()
+        if(appointment[-1]=='Pending'):
+            total_pending_appointments+=1
+        dummy_appointment=[]
+        dummy_appointment.append(appointment[0])
+        dummy_appointment.append(contract.functions.getPatientNameById(appointment[1]).call())
+        dummy_appointment.append(contract.functions.getDoctorNameById(appointment[2]).call())
+        dummy_appointment.append(appointment[3].split('T')[0])
+        dummy_appointment.append(appointment[3].split('T')[1])
+        dummy_appointment.append(appointment[4])
+        appointmentsArray.append(dummy_appointment)
+    recordsArray=ehrcontract.functions.getAllMedicalRecords().call()
+    total_records=len(recordsArray)
+    records=[]
+    for record in recordsArray:
+        dummyRecord=[]
+        dummyRecord.append(record[0])
+        dummyRecord.append(contract.functions.getPatientNameById(record[1]).call())
+        dummyRecord.append(record[2])
+        dummyRecord.append(record[3])
+        dummyRecord.append(record[4])
+        records.append(dummyRecord)
+    print(records)
+    return render_template('admin-overview.html',records=records,total_records=total_records,appointments=appointmentsArray,total_pending_appointments=total_pending_appointments,total_doctors=len(doctors),total_users=total_users,doctors=doctors,patients=patients,total_appointments=total_appointments)
 
 @app.route('/adminUserManagement')
 def adminUserManagement():

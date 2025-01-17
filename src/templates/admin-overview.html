@@ -142,48 +142,47 @@
             <h2>Dashboard Overview</h2>
             <p>A quick summary of key system metrics.</p>
             <ul>
-                <li><strong>Total Users:</strong> 150</li>
-                <li><strong>Total Appointments:</strong> 230</li>
-                <li><strong>Active Doctors:</strong> 50</li>
-                <li><strong>Pending Appointments:</strong> 20</li>
+                <li><strong>Total Users:</strong> {{total_users}}</li>
+                <li><strong>Total Appointments:</strong> {{total_appointments}}</li>
+                <li><strong>Active Doctors:</strong> {{total_doctors}}</li>
+                <li><strong>Pending Appointments:</strong> {{total_pending_appointments}}</li>
+                <li><strong>Total Medical Records:</strong> {{total_records}}</li>
             </ul>
         </div>
 
         <!-- User Management Section -->
         <div id="user-management" class="section">
             <h2>User Management</h2>
-            <p>Manage system users, including doctors, patients, and admins.</p>
+            <p>List system users, including doctors, patients, and admins.</p>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>User ID</th>
-                        <th>Name</th>
+                        <th>Wallet Address</th>
                         <th>Role</th>
-                        <th>Email</th>
-                        <th>Actions</th>
+                        <th>UserId</th>
+                        <th>Name</th>
+                        <th>Contact</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>John Doe</td>
-                        <td>Doctor</td>
-                        <td>john.doe@example.com</td>
-                        <td>
-                            <button class="action-btn edit-btn">Edit</button>
-                            <button class="action-btn delete-btn">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Jane Smith</td>
-                        <td>Patient</td>
-                        <td>jane.smith@example.com</td>
-                        <td>
-                            <button class="action-btn edit-btn">Edit</button>
-                            <button class="action-btn delete-btn">Delete</button>
-                        </td>
-                    </tr>
+                    {%for doctor in doctors%}
+                        <tr>
+                            <td>{{doctor[0]}}</td>
+                            <td>Doctor - {{doctor[6]}}</td>
+                            <td>DOCID{{doctor[1]}}</td>
+                            <td>{{doctor[2]}}</td>
+                            <td>{{doctor[4]}}</td>
+                        </tr>
+                    {%endfor%}
+                    {%for patient in patients%}
+                        <tr>
+                            <td>{{patient[0]}}</td>
+                            <td>Patient - {{patient[5]}}</td>
+                            <td>PATID{{patient[1]}}</td>
+                            <td>{{patient[2]}}</td>
+                            <td>{{patient[4]}}</td>
+                        </tr>
+                    {%endfor%}
                 </tbody>
             </table>
         </div>
@@ -191,7 +190,7 @@
         <!-- Appointment Management Section -->
         <div id="appointment-management" class="section">
             <h2>Appointment Management</h2>
-            <p>Monitor and manage appointments between patients and doctors.</p>
+            <p>Monitor appointments between patients and doctors.</p>
             <table class="table">
                 <thead>
                     <tr>
@@ -199,33 +198,21 @@
                         <th>Patient</th>
                         <th>Doctor</th>
                         <th>Date</th>
+                        <th>Time</th>
                         <th>Status</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>201</td>
-                        <td>Jane Doe</td>
-                        <td>Dr. John Doe</td>
-                        <td>2024-12-10</td>
-                        <td>Confirmed</td>
-                        <td>
-                            <button class="action-btn edit-btn">Edit</button>
-                            <button class="action-btn delete-btn">Cancel</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>202</td>
-                        <td>John Smith</td>
-                        <td>Dr. Jane Doe</td>
-                        <td>2024-12-15</td>
-                        <td>Pending</td>
-                        <td>
-                            <button class="action-btn edit-btn">Edit</button>
-                            <button class="action-btn delete-btn">Cancel</button>
-                        </td>
-                    </tr>
+                    {%for appointment in appointments%}
+                        <tr>
+                            <td>{{appointment[0]}}</td>
+                            <td>{{appointment[1]}}</td>
+                            <td>{{appointment[2]}}</td>
+                            <td>{{appointment[3]}}</td>
+                            <td>{{appointment[4]}}</td>
+                            <td>{{appointment[5]}}</td>
+                        </tr>
+                    {%endfor%}
                 </tbody>
             </table>
         </div>
@@ -233,7 +220,7 @@
         <!-- Medical Records Section -->
         <div id="medical-records" class="section">
             <h2>Medical Records</h2>
-            <p>Review and manage medical records uploaded by doctors.</p>
+            <p>Review the medical records uploaded by doctors.</p>
             <table class="table">
                 <thead>
                     <tr>
@@ -245,26 +232,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>501</td>
-                        <td>Jane Doe</td>
-                        <td>2024-11-01</td>
-                        <td>Blood Test Report</td>
-                        <td>
-                            <button class="action-btn edit-btn">View</button>
-                            <button class="action-btn delete-btn">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>502</td>
-                        <td>John Smith</td>
-                        <td>2024-11-15</td>
-                        <td>X-Ray Report</td>
-                        <td>
-                            <button class="action-btn edit-btn">View</button>
-                            <button class="action-btn delete-btn">Delete</button>
-                        </td>
-                    </tr>
+                    {%for record in records%}
+                        <tr>
+                            <td>{{record[0]}}</td>
+                            <td>{{record[1]}}</td>
+                            <td>{{record[3]}}</td>
+                            <td>{{record[4]}}</td>
+                            <td>
+                                <a class="action-btn edit-btn" style="text-decoration: none;color:black" href="/static/uploads/{{record[2]}}">View</a>
+                            </td>
+                        </tr>
+                    {%endfor%}
+                    
                 </tbody>
             </table>
         </div>
